@@ -5,4 +5,4 @@ compatibility_date = "2026-07-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "yearglass-analytics"
-database_id = "FILLED_AFTER_D1_CREATE"
+database_id = "cc9dbe4e-54cf-4f95-a9eb-42d9f734deab"

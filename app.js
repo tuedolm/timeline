@@ -6,7 +6,7 @@
   const CONFIG = {
     name: "Yearglass",         // game name; single place to change on rename
     puzzlePath: "puzzles/",    // where daily blobs live (static dir or CDN)
-    analyticsEndpoint: "",     // set to a collector URL (see infra/worker.js) to enable
+    analyticsEndpoint: "https://yearglass-analytics.tuedolm.workers.dev/", // anonymous score events; GET /stats for aggregates
   };
 
   const MIN_YEAR = 1826;

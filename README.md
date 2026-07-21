@@ -59,8 +59,8 @@ Deploy updates with `git push` (regenerate puzzles first if content changed).
   Asmodee/Zygomatic's Timeline card game)
 - [ ] Bank ≥90 days of puzzles via `tools/curate.html` (8 days banked now;
   puzzle #009+ shows "no puzzle" until scheduled)
-- [ ] Deploy `infra/worker.js` (needs a Cloudflare account), set
-  `CONFIG.analyticsEndpoint`
+- [x] Analytics live: `infra/worker.js` on Cloudflare (D1). Aggregates at
+  https://yearglass-analytics.tuedolm.workers.dev/stats
 - [ ] Custom domain once named
 - [ ] Optional: service worker for offline/instant-load PWA
 
