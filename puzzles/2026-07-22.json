@@ -6,31 +6,36 @@
       "image": "assets/challenger.jpg",
       "year": 1986,
       "blurb": "Space Shuttle Challenger breaks apart 73 seconds after launch.",
-      "credit": "NASA / Kennedy Space Center \u2014 public domain"
+      "credit": "NASA / Kennedy Space Center \u2014 public domain",
+      "story": "A booster O-ring, stiffened by an overnight freeze, failed 73 seconds after liftoff. The loss of all seven crew \u2014 including teacher Christa McAuliffe, with schoolchildren watching live \u2014 grounded the fleet for almost three years."
     },
     {
       "image": "assets/kuwait-fires.jpg",
       "year": 1991,
       "blurb": "A U.S. Navy F-14 over Kuwait's burning oil wells in the months after the Gulf War.",
-      "credit": "Lt. Steve Gozzo, U.S. Navy \u2014 public domain"
+      "credit": "Lt. Steve Gozzo, U.S. Navy \u2014 public domain",
+      "story": "Retreating forces set more than 600 Kuwaiti wells alight; the smoke turned midday to dusk and the fires burned most of a year. Crews from ten nations capped them faster than any forecast predicted."
     },
     {
       "image": "assets/inauguration-09.jpg",
       "year": 2009,
       "blurb": "The crowd on the National Mall for Barack Obama's first inauguration.",
-      "credit": "Steve Bott (CC BY 2.0)"
+      "credit": "Steve Bott (CC BY 2.0)",
+      "story": "An estimated 1.8 million people packed the Mall in sub-freezing cold \u2014 the largest crowd ever recorded in Washington. The Metro carried more riders that day than on any day before it."
     },
     {
       "image": "assets/lindbergh.jpg",
       "year": 1927,
       "blurb": "Charles Lindbergh with the Spirit of St. Louis, the year of the first solo transatlantic flight.",
-      "credit": "Library of Congress \u2014 public domain"
+      "credit": "Library of Congress \u2014 public domain",
+      "story": "Days before this portrait circulated, the 25-year-old airmail pilot flew the Spirit of St. Louis nonstop from New York to Paris: 33 and a half hours, alone, navigating by dead reckoning. He took off an unknown and landed to a crowd of 150,000."
     },
     {
       "image": "assets/subway-graffiti-73.jpg",
       "year": 1973,
       "blurb": "Riders in a spray-painted New York subway car, photographed for the EPA's Documerica project.",
-      "credit": "Erik Calonius / EPA Documerica, National Archives \u2014 public domain"
+      "credit": "Erik Calonius / EPA Documerica, National Archives \u2014 public domain",
+      "story": "Erik Calonius photographed New York's spray-painted fleet for the EPA's Documerica project, just as graffiti writing exploded from teenage fad into art movement. The MTA spent the next two decades trying to scrub it out."
     }
   ]
 }

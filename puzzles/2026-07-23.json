@@ -6,31 +6,36 @@
       "image": "assets/titanic.jpg",
       "year": 1912,
       "blurb": "RMS Titanic departs Southampton on her maiden \u2014 and only \u2014 voyage.",
-      "credit": "F.G.O. Stuart \u2014 public domain"
+      "credit": "F.G.O. Stuart \u2014 public domain",
+      "story": "Four days after this Southampton departure, Titanic struck an iceberg and sank; more than 1,500 of the roughly 2,200 aboard died. Stuart's photograph shows her at the moment she still represented the future of ocean travel."
     },
     {
       "image": "assets/reagan-wall.jpg",
       "year": 1987,
       "blurb": "\"Tear down this wall\" \u2014 Ronald Reagan speaks at the Brandenburg Gate in West Berlin.",
-      "credit": "White House Photographic Office / DPLA \u2014 public domain"
+      "credit": "White House Photographic Office / DPLA \u2014 public domain",
+      "story": "Reagan's advisers cut the line 'tear down this wall' from draft after draft as too provocative; he kept putting it back. Twenty-nine months later, Berliners were dancing on top of it."
     },
     {
       "image": "assets/voyager-launch.jpg",
       "year": 1977,
       "blurb": "Voyager 2 leaves Earth aboard a Titan IIIE \u2014 carrying the Golden Record toward interstellar space.",
-      "credit": "NASA/MSFC \u2014 public domain"
+      "credit": "NASA/MSFC \u2014 public domain",
+      "story": "Voyager 2 actually launched sixteen days before Voyager 1, on a slower path that let it visit all four outer planets \u2014 an alignment that comes once every 176 years. Nearly five decades on, it still calls home from interstellar space."
     },
     {
       "image": "assets/elvis-nixon.jpg",
       "year": 1970,
       "blurb": "Elvis Presley meets Richard Nixon in the Oval Office \u2014 the National Archives' most-requested photograph.",
-      "credit": "Ollie Atkins / White House \u2014 public domain"
+      "credit": "Ollie Atkins / White House \u2014 public domain",
+      "story": "Presley arrived unannounced at the White House gate with a handwritten letter asking to be made a federal agent-at-large in the war on drugs. Nixon gave him the badge \u2014 and the resulting photo became the National Archives' most requested item, ahead of the Constitution."
     },
     {
       "image": "assets/unity-sts88.jpg",
       "year": 1998,
       "blurb": "The International Space Station begins: the Unity node rides in Endeavour's payload bay before mating with Zarya.",
-      "credit": "NASA \u2014 public domain"
+      "credit": "NASA \u2014 public domain",
+      "story": "Endeavour's crew mated the American Unity node to Russia's Zarya module, the station's first two pieces. The ISS has been continuously occupied since 2000 \u2014 the longest unbroken human presence off Earth."
     }
   ]
 }

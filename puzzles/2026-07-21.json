@@ -6,31 +6,36 @@
       "image": "assets/aldrin.jpg",
       "year": 1969,
       "blurb": "Buzz Aldrin on the Sea of Tranquility, photographed by Neil Armstrong during Apollo 11.",
-      "credit": "Neil Armstrong / NASA \u2014 public domain"
+      "credit": "Neil Armstrong / NASA \u2014 public domain",
+      "story": "Armstrong carried the camera for nearly the whole moonwalk, which is why the mission's most famous portrait is of Aldrin \u2014 Armstrong appears only as a reflection in the gold visor. The pair spent 21 hours on the Sea of Tranquility."
     },
     {
       "image": "assets/st-helens.jpg",
       "year": 1980,
       "blurb": "Mount St. Helens erupts on the morning of May 18 \u2014 the deadliest volcanic event in U.S. history.",
-      "credit": "Austin Post / USGS \u2014 public domain"
+      "credit": "Austin Post / USGS \u2014 public domain",
+      "story": "The eruption removed the top 1,300 feet of the mountain, flattened 230 square miles of forest, and killed 57 people. USGS photographer Austin Post made this frame from a light plane as the column climbed 15 miles."
     },
     {
       "image": "assets/olympics-84.jpg",
       "year": 1984,
       "blurb": "Opening ceremony of the Summer Olympics at the Los Angeles Memorial Coliseum.",
-      "credit": "U.S. Air Force \u2014 public domain"
+      "credit": "U.S. Air Force \u2014 public domain",
+      "story": "Los Angeles staged the first privately financed Games \u2014 and turned a surplus north of $200 million while fourteen Eastern Bloc nations stayed home. The ceremony opened with a jet-pack flight and eighty-four grand pianos playing Rhapsody in Blue."
     },
     {
       "image": "assets/times-square-73.jpg",
       "year": 1973,
       "blurb": "Times Square in high summer, photographed for the EPA's Documerica project.",
-      "credit": "Dan McCoy / EPA Documerica, National Archives \u2014 public domain"
+      "credit": "Dan McCoy / EPA Documerica, National Archives \u2014 public domain",
+      "story": "Dan McCoy shot Times Square for Documerica, an EPA project that dispatched photographers to record American life in the early 1970s. The district was sliding into its gritty pre-cleanup era of grindhouses and peep shows."
     },
     {
       "image": "assets/sf-earthquake.jpg",
       "year": 1906,
       "blurb": "Residents of Sacramento Street watch the fires after the San Francisco earthquake.",
-      "credit": "Arnold Genthe \u2014 public domain"
+      "credit": "Arnold Genthe \u2014 public domain",
+      "story": "The magnitude 7.9 quake and the fires that followed destroyed most of San Francisco and left over half the city homeless. Genthe shot this with a borrowed camera \u2014 his own studio and equipment were already burning."
     }
   ]
 }

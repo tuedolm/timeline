@@ -1,6 +1,6 @@
 {
-  "name": "Timeline — the daily photo dating game",
-  "short_name": "Timeline",
+  "name": "Yearglass — the daily photo dating game",
+  "short_name": "Yearglass",
   "description": "Five photographs. Guess the year each was taken. A new puzzle every day.",
   "start_url": ".",
   "display": "standalone",

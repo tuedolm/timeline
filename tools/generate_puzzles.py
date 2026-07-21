@@ -52,7 +52,7 @@ def validate(lib: dict) -> list:
         where = f"image '{img.get('id', '?')}'"
         if not isinstance(img.get("year"), int):
             errors.append(f"{where}: year must be an exact integer")
-        for field in ("blurb", "credit", "commonsFile"):
+        for field in ("blurb", "credit", "commonsFile", "story"):
             if not img.get(field):
                 errors.append(f"{where}: missing {field}")
         if not img.get("verified", {}).get("license"):
@@ -111,6 +111,7 @@ def main() -> int:
                     "year": img["year"],
                     "blurb": img["blurb"],
                     "credit": img["credit"],
+                    "story": img["story"],
                 }
                 for img in rounds
             ],

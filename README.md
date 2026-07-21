@@ -1,4 +1,4 @@
-# Timeline
+# Yearglass
 
 A once-a-day web game: five photographs, drag a slider to guess the year each
 was taken, score by how close you were, share a spoiler-free result grid.
@@ -45,7 +45,7 @@ public launch.
 
 ## Playtest deployment
 
-Live at **https://tuedolm.github.io/timeline/** (GitHub Pages from `main`).
+Live at **https://tuedolm.github.io/yearglass/** (GitHub Pages from `main`).
 Deploy updates with `git push` (regenerate puzzles first if content changed).
 
 ## Launch checklist
@@ -55,10 +55,8 @@ Deploy updates with `git push` (regenerate puzzles first if content changed).
 - [x] Absolute `og:image` URL
 - [x] CC attribution rendered on every reveal + credits page
 - [x] Hint mechanic (decade reveal, −40% of round score)
-- [ ] **Decide the name.** "Timeline" collides with Asmodee/Zygomatic's
-  Timeline card game (chronology guessing, actively sold). Cleared
-  candidates as of Jul 2026: "Yearglass", "Yearshot". Rename =
-  `CONFIG.name` + index meta + manifest + OG image + repo/domain.
+- [x] **Name: Yearglass** (renamed from Timeline, which collides with
+  Asmodee/Zygomatic's Timeline card game)
 - [ ] Bank ≥90 days of puzzles via `tools/curate.html` (8 days banked now;
   puzzle #009+ shows "no puzzle" until scheduled)
 - [ ] Deploy `infra/worker.js` (needs a Cloudflare account), set

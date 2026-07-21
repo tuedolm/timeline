@@ -1,41 +1,68 @@
 /**
- * Timeline analytics collector — Cloudflare Worker scaffold.
+ * Yearglass analytics collector — Cloudflare Worker + D1.
  *
- * Receives the tiny JSON events the client's track() sends (round results and
- * game completions) and writes them to Workers Analytics Engine, which gives
- * per-puzzle score distributions for free-tier volumes. That distribution is
- * what tunes the decay constant and the difficulty curve (PRD §8).
+ * Receives the tiny JSON events the client's track() sends and stores them in
+ * a D1 database. GET /stats returns per-puzzle aggregates as JSON — the score
+ * distributions that tune the decay constant and difficulty curve (PRD §8).
  *
- * Deploy (requires a Cloudflare account; not done automatically):
- *   1. wrangler init timeline-analytics && copy this file in as src/index.js
- *   2. In wrangler.toml add:
- *        [[analytics_engine_datasets]]
- *        binding = "GAME_EVENTS"
- *   3. wrangler deploy, then set CONFIG.analyticsEndpoint in app.js to the
- *      worker URL.
+ * Privacy: no cookies, no user identifiers, no IPs stored. Each row is an
+ * anonymous event. Keep it that way — it is why the game needs no consent UI.
  *
  * Events accepted (see track() in app.js):
- *   {e:"round",    d:"2026-07-21", n:1, r:1, err:4, pts:3567}
+ *   {e:"round",    d:"2026-07-21", n:1, r:1, err:4, pts:3567, hint:0}
  *   {e:"complete", d:"2026-07-21", n:1, total:15573}
+ *   {e:"hint",     d:"2026-07-21", n:1, r:2}
  *   {e:"share",    d:"2026-07-21", n:1}
  *
- * No cookies, no IPs stored, no user identifiers: each event is an anonymous
- * counter increment. Keep it that way — it is why this needs no consent UI.
+ * Setup (one-time):
+ *   npx wrangler d1 create yearglass-analytics   # id goes in wrangler.toml
+ *   npx wrangler d1 execute yearglass-analytics --remote --command \
+ *     "CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, \
+ *      e TEXT, d TEXT, n INTEGER, r INTEGER, err INTEGER, pts INTEGER, \
+ *      hint INTEGER, ts INTEGER)"
+ *   npx wrangler deploy -c infra/wrangler.toml
+ * Then set CONFIG.analyticsEndpoint in app.js to the worker URL.
  */
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "content-type",
 };
 
+const KINDS = ["round", "complete", "hint", "share"];
+
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: CORS });
     }
+
+    if (request.method === "GET" && url.pathname === "/stats") {
+      const completes = await env.DB.prepare(
+        "SELECT n, COUNT(*) AS plays, ROUND(AVG(pts)) AS avg_total, " +
+        "MIN(pts) AS min_total, MAX(pts) AS max_total " +
+        "FROM events WHERE e='complete' GROUP BY n ORDER BY n"
+      ).all();
+      const rounds = await env.DB.prepare(
+        "SELECT n, r, COUNT(*) AS guesses, ROUND(AVG(err), 1) AS avg_err, " +
+        "ROUND(AVG(pts)) AS avg_pts, SUM(hint) AS hints, " +
+        "SUM(CASE WHEN err <= 2 THEN 1 ELSE 0 END) AS within2 " +
+        "FROM events WHERE e='round' GROUP BY n, r ORDER BY n, r"
+      ).all();
+      const shares = await env.DB.prepare(
+        "SELECT n, COUNT(*) AS shares FROM events WHERE e='share' GROUP BY n ORDER BY n"
+      ).all();
+      return new Response(
+        JSON.stringify({ puzzles: completes.results, rounds: rounds.results, shares: shares.results }, null, 2),
+        { headers: { ...CORS, "content-type": "application/json" } },
+      );
+    }
+
     if (request.method !== "POST") {
-      return new Response("POST only", { status: 405, headers: CORS });
+      return new Response("POST an event or GET /stats", { status: 405, headers: CORS });
     }
 
     let ev;
@@ -44,18 +71,22 @@ export default {
     } catch {
       return new Response("bad json", { status: 400, headers: CORS });
     }
-
-    const kind = String(ev.e || "");
-    if (!["round", "complete", "share"].includes(kind)) {
+    if (!KINDS.includes(ev.e)) {
       return new Response("unknown event", { status: 400, headers: CORS });
     }
 
-    env.GAME_EVENTS.writeDataPoint({
-      // blobs: dimensions to slice by; doubles: values to aggregate.
-      blobs: [kind, String(ev.d || ""), String(ev.n || 0), String(ev.r || 0)],
-      doubles: [Number(ev.err ?? -1), Number(ev.pts ?? ev.total ?? -1)],
-      indexes: [String(ev.n || 0)], // sample key: the puzzle number
-    });
+    await env.DB.prepare(
+      "INSERT INTO events (e, d, n, r, err, pts, hint, ts) VALUES (?,?,?,?,?,?,?,?)"
+    ).bind(
+      String(ev.e),
+      String(ev.d || ""),
+      Number(ev.n || 0),
+      Number(ev.r || 0),
+      Number.isFinite(ev.err) ? Number(ev.err) : null,
+      Number.isFinite(ev.pts) ? Number(ev.pts) : (Number.isFinite(ev.total) ? Number(ev.total) : null),
+      Number(ev.hint || 0),
+      Date.now(),
+    ).run();
 
     return new Response("ok", { headers: CORS });
   },

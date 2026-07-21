@@ -9,7 +9,12 @@
       "difficulty": 1,
       "blurb": "Orville Wright pilots the first powered flight at Kitty Hawk, North Carolina, while Wilbur runs alongside.",
       "credit": "John T. Daniels / Library of Congress — public domain",
-      "verified": { "license": "Public domain", "artist": "John T. Daniels", "dateOriginal": "1903-12-17" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "John T. Daniels",
+        "dateOriginal": "1903-12-17"
+      },
+      "story": "The flight lasted twelve seconds and covered 120 feet — shorter than a 747's wingspan. John Daniels, a lifeguard who had never worked a camera before, squeezed the shutter bulb exactly once that morning and captured one of history's most reproduced images."
     },
     {
       "id": "sf-earthquake",
@@ -18,7 +23,12 @@
       "difficulty": 4,
       "blurb": "Residents of Sacramento Street watch the fires after the San Francisco earthquake.",
       "credit": "Arnold Genthe — public domain",
-      "verified": { "license": "Public domain", "artist": "Arnold Genthe", "dateOriginal": "1906-04-18" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Arnold Genthe",
+        "dateOriginal": "1906-04-18"
+      },
+      "story": "The magnitude 7.9 quake and the fires that followed destroyed most of San Francisco and left over half the city homeless. Genthe shot this with a borrowed camera — his own studio and equipment were already burning."
     },
     {
       "id": "titanic",
@@ -27,7 +37,12 @@
       "difficulty": 1,
       "blurb": "RMS Titanic departs Southampton on her maiden — and only — voyage.",
       "credit": "F.G.O. Stuart — public domain",
-      "verified": { "license": "Public domain", "artist": "Francis Godolphin Osbourne Stuart", "dateOriginal": "1912-04-10" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Francis Godolphin Osbourne Stuart",
+        "dateOriginal": "1912-04-10"
+      },
+      "story": "Four days after this Southampton departure, Titanic struck an iceberg and sank; more than 1,500 of the roughly 2,200 aboard died. Stuart's photograph shows her at the moment she still represented the future of ocean travel."
     },
     {
       "id": "lindbergh",
@@ -36,7 +51,12 @@
       "difficulty": 3,
       "blurb": "Charles Lindbergh with the Spirit of St. Louis, the year of the first solo transatlantic flight.",
       "credit": "Library of Congress — public domain",
-      "verified": { "license": "Public domain", "artist": "Unknown", "dateOriginal": "1927-05-31" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Unknown",
+        "dateOriginal": "1927-05-31"
+      },
+      "story": "Days before this portrait circulated, the 25-year-old airmail pilot flew the Spirit of St. Louis nonstop from New York to Paris: 33 and a half hours, alone, navigating by dead reckoning. He took off an unknown and landed to a crowd of 150,000."
     },
     {
       "id": "migrant-mother",
@@ -45,7 +65,12 @@
       "difficulty": 2,
       "blurb": "Dorothea Lange's \"Migrant Mother\": Florence Owens Thompson in a pea pickers' camp in Nipomo, California.",
       "credit": "Dorothea Lange / Farm Security Administration — public domain",
-      "verified": { "license": "Public domain", "artist": "Dorothea Lange", "dateOriginal": "1936-03-06" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Dorothea Lange",
+        "dateOriginal": "1936-03-06"
+      },
+      "story": "Florence Owens Thompson, 32 and a mother of seven, sat in a pea pickers' camp where the crop had frozen. Lange stopped for ten minutes and made six exposures; the last became the defining image of the Great Depression."
     },
     {
       "id": "hindenburg",
@@ -54,7 +79,12 @@
       "difficulty": 2,
       "blurb": "The airship Hindenburg burns while landing at Naval Air Station Lakehurst, New Jersey.",
       "credit": "Sam Shere — public domain",
-      "verified": { "license": "Public domain", "artist": "Sam Shere", "dateOriginal": "1937-05-06" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Sam Shere",
+        "dateOriginal": "1937-05-06"
+      },
+      "story": "The largest aircraft ever built burned in about half a minute while landing; remarkably, 62 of the 97 aboard survived. Filmed, photographed, and narrated live on radio, the disaster ended the airship era overnight."
     },
     {
       "id": "mlk-march",
@@ -63,7 +93,12 @@
       "difficulty": 2,
       "blurb": "Martin Luther King Jr. at the March on Washington for Jobs and Freedom.",
       "credit": "Rowland Scherman / U.S. Information Agency — public domain",
-      "verified": { "license": "Public domain", "artist": "Rowland Scherman", "dateOriginal": "1963-08-28" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Rowland Scherman",
+        "dateOriginal": "1963-08-28"
+      },
+      "story": "A quarter-million people marched on Washington for jobs and freedom. Near the end of the program, singer Mahalia Jackson called out 'Tell them about the dream, Martin' — and King set aside his prepared text."
     },
     {
       "id": "earthrise",
@@ -72,7 +107,12 @@
       "difficulty": 2,
       "blurb": "\"Earthrise,\" taken from lunar orbit during Apollo 8 — the first crewed mission to leave Earth orbit.",
       "credit": "Bill Anders / NASA — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA/Bill Anders", "dateOriginal": "1968-12-24" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA/Bill Anders",
+        "dateOriginal": "1968-12-24"
+      },
+      "story": "Coming around the Moon's far side on the fourth orbit, Bill Anders grabbed the only color film aboard and shot Earth rising over the lunar horizon. It has been called the most influential environmental photograph ever taken."
     },
     {
       "id": "aldrin",
@@ -81,7 +121,12 @@
       "difficulty": 1,
       "blurb": "Buzz Aldrin on the Sea of Tranquility, photographed by Neil Armstrong during Apollo 11.",
       "credit": "Neil Armstrong / NASA — public domain",
-      "verified": { "license": "Public domain", "artist": "Neil A. Armstrong", "dateOriginal": "1969-07-20" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Neil A. Armstrong",
+        "dateOriginal": "1969-07-20"
+      },
+      "story": "Armstrong carried the camera for nearly the whole moonwalk, which is why the mission's most famous portrait is of Aldrin — Armstrong appears only as a reflection in the gold visor. The pair spent 21 hours on the Sea of Tranquility."
     },
     {
       "id": "elvis-nixon",
@@ -90,7 +135,12 @@
       "difficulty": 3,
       "blurb": "Elvis Presley meets Richard Nixon in the Oval Office — the National Archives' most-requested photograph.",
       "credit": "Ollie Atkins / White House — public domain",
-      "verified": { "license": "Public domain", "artist": "Ollie Atkins, chief White House photographer", "dateOriginal": "1970-12-21" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Ollie Atkins, chief White House photographer",
+        "dateOriginal": "1970-12-21"
+      },
+      "story": "Presley arrived unannounced at the White House gate with a handwritten letter asking to be made a federal agent-at-large in the war on drugs. Nixon gave him the badge — and the resulting photo became the National Archives' most requested item, ahead of the Constitution."
     },
     {
       "id": "blue-marble",
@@ -99,7 +149,12 @@
       "difficulty": 4,
       "blurb": "\"The Blue Marble,\" taken by the crew of Apollo 17 — the last crewed lunar mission — on the way to the Moon.",
       "credit": "NASA / Apollo 17 crew — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA/Apollo 17 crew", "dateOriginal": "1972-12-07" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA/Apollo 17 crew",
+        "dateOriginal": "1972-12-07"
+      },
+      "story": "Taken about five hours after launch with the Sun squarely behind the spacecraft — the only time a human crew has photographed a fully lit Earth. Within months it was an emblem of the environmental movement."
     },
     {
       "id": "times-square-73",
@@ -108,7 +163,12 @@
       "difficulty": 4,
       "blurb": "Times Square in high summer, photographed for the EPA's Documerica project.",
       "credit": "Dan McCoy / EPA Documerica, National Archives — public domain",
-      "verified": { "license": "Public domain", "artist": "Dan McCoy", "dateOriginal": "1973-08" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Dan McCoy",
+        "dateOriginal": "1973-08"
+      },
+      "story": "Dan McCoy shot Times Square for Documerica, an EPA project that dispatched photographers to record American life in the early 1970s. The district was sliding into its gritty pre-cleanup era of grindhouses and peep shows."
     },
     {
       "id": "subway-graffiti-73",
@@ -117,7 +177,12 @@
       "difficulty": 4,
       "blurb": "Riders in a spray-painted New York subway car, photographed for the EPA's Documerica project.",
       "credit": "Erik Calonius / EPA Documerica, National Archives — public domain",
-      "verified": { "license": "Public domain", "artist": "Erik Calonius", "dateOriginal": "1973-05" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Erik Calonius",
+        "dateOriginal": "1973-05"
+      },
+      "story": "Erik Calonius photographed New York's spray-painted fleet for the EPA's Documerica project, just as graffiti writing exploded from teenage fad into art movement. The MTA spent the next two decades trying to scrub it out."
     },
     {
       "id": "pool-it-74",
@@ -126,7 +191,12 @@
       "difficulty": 3,
       "blurb": "A carpooling appeal near Vancouver, Washington, as the first oil crisis dragged on.",
       "credit": "David Falconer / EPA Documerica, National Archives — public domain",
-      "verified": { "license": "Public domain", "artist": "David Falconer", "dateOriginal": "1974-03" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "David Falconer",
+        "dateOriginal": "1974-03"
+      },
+      "story": "OPEC's embargo quadrupled oil prices in months; America answered with odd-even gas rationing, a 55 mph national speed limit, and signs like this one. The era of the cheap-gas land yacht never came back."
     },
     {
       "id": "voyager-launch",
@@ -135,7 +205,12 @@
       "difficulty": 3,
       "blurb": "Voyager 2 leaves Earth aboard a Titan IIIE — carrying the Golden Record toward interstellar space.",
       "credit": "NASA/MSFC — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA/MSFC", "dateOriginal": "1977-08-20" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA/MSFC",
+        "dateOriginal": "1977-08-20"
+      },
+      "story": "Voyager 2 actually launched sixteen days before Voyager 1, on a slower path that let it visit all four outer planets — an alignment that comes once every 176 years. Nearly five decades on, it still calls home from interstellar space."
     },
     {
       "id": "st-helens",
@@ -144,7 +219,12 @@
       "difficulty": 2,
       "blurb": "Mount St. Helens erupts on the morning of May 18 — the deadliest volcanic event in U.S. history.",
       "credit": "Austin Post / USGS — public domain",
-      "verified": { "license": "Public domain", "artist": "Austin Post", "dateOriginal": "1980-05-18" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Austin Post",
+        "dateOriginal": "1980-05-18"
+      },
+      "story": "The eruption removed the top 1,300 feet of the mountain, flattened 230 square miles of forest, and killed 57 people. USGS photographer Austin Post made this frame from a light plane as the column climbed 15 miles."
     },
     {
       "id": "sts-1",
@@ -153,7 +233,12 @@
       "difficulty": 3,
       "blurb": "Space Shuttle Columbia lifts off on STS-1, the first flight of the Shuttle program.",
       "credit": "NASA — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA", "dateOriginal": "1981-04-12" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA",
+        "dateOriginal": "1981-04-12"
+      },
+      "story": "Columbia's first flight was the first time NASA put crew on a vehicle that had never flown uncrewed — John Young and Bob Crippen rode boosters that had only ever been fired on a test stand. It launched twenty years to the day after Gagarin."
     },
     {
       "id": "sally-ride",
@@ -162,7 +247,12 @@
       "difficulty": 3,
       "blurb": "Sally Ride on Challenger's flight deck during STS-7 — America's first woman in space.",
       "credit": "NASA / National Archives — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA", "dateOriginal": "1983-06 (STS-7 mission window)" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA",
+        "dateOriginal": "1983-06 (STS-7 mission window)"
+      },
+      "story": "Chosen from NASA's first astronaut class open to women, Ride spent the run-up fielding press questions about whether she would cry in orbit. Aboard STS-7 she operated the robot arm she had helped design."
     },
     {
       "id": "olympics-84",
@@ -171,7 +261,12 @@
       "difficulty": 3,
       "blurb": "Opening ceremony of the Summer Olympics at the Los Angeles Memorial Coliseum.",
       "credit": "U.S. Air Force — public domain",
-      "verified": { "license": "Public domain", "artist": "U.S. Air Force", "dateOriginal": "1984-07-28" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "U.S. Air Force",
+        "dateOriginal": "1984-07-28"
+      },
+      "story": "Los Angeles staged the first privately financed Games — and turned a surplus north of $200 million while fourteen Eastern Bloc nations stayed home. The ceremony opened with a jet-pack flight and eighty-four grand pianos playing Rhapsody in Blue."
     },
     {
       "id": "challenger",
@@ -180,7 +275,12 @@
       "difficulty": 1,
       "blurb": "Space Shuttle Challenger breaks apart 73 seconds after launch.",
       "credit": "NASA / Kennedy Space Center — public domain",
-      "verified": { "license": "Public domain", "artist": "Kennedy Space Center", "dateOriginal": "1986-01-28" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Kennedy Space Center",
+        "dateOriginal": "1986-01-28"
+      },
+      "story": "A booster O-ring, stiffened by an overnight freeze, failed 73 seconds after liftoff. The loss of all seven crew — including teacher Christa McAuliffe, with schoolchildren watching live — grounded the fleet for almost three years."
     },
     {
       "id": "reagan-wall",
@@ -189,7 +289,12 @@
       "difficulty": 2,
       "blurb": "\"Tear down this wall\" — Ronald Reagan speaks at the Brandenburg Gate in West Berlin.",
       "credit": "White House Photographic Office / DPLA — public domain",
-      "verified": { "license": "Public domain", "artist": "White House Photographic Office", "dateOriginal": "1987-06-12" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "White House Photographic Office",
+        "dateOriginal": "1987-06-12"
+      },
+      "story": "Reagan's advisers cut the line 'tear down this wall' from draft after draft as too provocative; he kept putting it back. Twenty-nine months later, Berliners were dancing on top of it."
     },
     {
       "id": "kuwait-fires",
@@ -198,7 +303,12 @@
       "difficulty": 2,
       "blurb": "A U.S. Navy F-14 over Kuwait's burning oil wells in the months after the Gulf War.",
       "credit": "Lt. Steve Gozzo, U.S. Navy — public domain",
-      "verified": { "license": "Public domain", "artist": "Lt. Steve Gozzo, U.S. Navy", "dateOriginal": "1991-09-10" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Lt. Steve Gozzo, U.S. Navy",
+        "dateOriginal": "1991-09-10"
+      },
+      "story": "Retreating forces set more than 600 Kuwaiti wells alight; the smoke turned midday to dusk and the fires burned most of a year. Crews from ten nations capped them faster than any forecast predicted."
     },
     {
       "id": "unity-sts88",
@@ -207,7 +317,12 @@
       "difficulty": 4,
       "blurb": "The International Space Station begins: the Unity node rides in Endeavour's payload bay before mating with Zarya.",
       "credit": "NASA — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA", "dateOriginal": "1998-11-19" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA",
+        "dateOriginal": "1998-11-19"
+      },
+      "story": "Endeavour's crew mated the American Unity node to Russia's Zarya module, the station's first two pieces. The ISS has been continuously occupied since 2000 — the longest unbroken human presence off Earth."
     },
     {
       "id": "spaceshipone",
@@ -216,7 +331,12 @@
       "difficulty": 4,
       "blurb": "Test pilot Mike Melvill celebrates atop SpaceShipOne after the first privately funded human spaceflight.",
       "credit": "Don Ramey Logan (CC BY-SA 3.0)",
-      "verified": { "license": "CC BY-SA 3.0", "artist": "Don Ramey Logan", "dateOriginal": "2004-09-29" }
+      "verified": {
+        "license": "CC BY-SA 3.0",
+        "artist": "Don Ramey Logan",
+        "dateOriginal": "2004-09-29"
+      },
+      "story": "Melvill rode SpaceShipOne past the edge of space on the first of the two flights that clinched the $10 million Ansari X Prize. It was the first privately built and funded craft to carry a human to space — the proof of concept behind commercial spaceflight."
     },
     {
       "id": "katrina",
@@ -225,7 +345,12 @@
       "difficulty": 2,
       "blurb": "New Orleans under water in the days after Hurricane Katrina.",
       "credit": "Cmdr. Mark Moran / NOAA — public domain",
-      "verified": { "license": "Public domain", "artist": "Commander Mark Moran, NOAA", "dateOriginal": "2005-09-11" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Commander Mark Moran, NOAA",
+        "dateOriginal": "2005-09-11"
+      },
+      "story": "The levees failed in more than 50 places and 80% of New Orleans went underwater for weeks. Katrina killed more than 1,800 people and remains the costliest hurricane in U.S. history."
     },
     {
       "id": "inauguration-09",
@@ -234,7 +359,12 @@
       "difficulty": 3,
       "blurb": "The crowd on the National Mall for Barack Obama's first inauguration.",
       "credit": "Steve Bott (CC BY 2.0)",
-      "verified": { "license": "CC BY 2.0", "artist": "Steve Bott", "dateOriginal": "2009-01-20" }
+      "verified": {
+        "license": "CC BY 2.0",
+        "artist": "Steve Bott",
+        "dateOriginal": "2009-01-20"
+      },
+      "story": "An estimated 1.8 million people packed the Mall in sub-freezing cold — the largest crowd ever recorded in Washington. The Metro carried more riders that day than on any day before it."
     },
     {
       "id": "deepwater",
@@ -243,7 +373,12 @@
       "difficulty": 3,
       "blurb": "Fireboats battle the Deepwater Horizon blaze in the Gulf of Mexico.",
       "credit": "U.S. Coast Guard — public domain",
-      "verified": { "license": "Public domain", "artist": "U.S. Coast Guard", "dateOriginal": "2010-04-20" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "U.S. Coast Guard",
+        "dateOriginal": "2010-04-20"
+      },
+      "story": "The blowout killed 11 workers and sank the rig two days later; the well then leaked for 87 days, some four million barrels — the largest marine oil spill in history. Penalties eventually passed $60 billion."
     },
     {
       "id": "occupy",
@@ -252,7 +387,12 @@
       "difficulty": 4,
       "blurb": "Occupy Wall Street gathers near Zuccotti Park on the movement's first day.",
       "credit": "David Shankbone (CC BY 3.0)",
-      "verified": { "license": "CC BY 3.0", "artist": "David Shankbone", "dateOriginal": "2011-09-17" }
+      "verified": {
+        "license": "CC BY 3.0",
+        "artist": "David Shankbone",
+        "dateOriginal": "2011-09-17"
+      },
+      "story": "A few hundred people in a granite plaza grew into encampments in hundreds of cities and put 'the 1%' into the political vocabulary. The Zuccotti Park camp lasted 59 days before police cleared it."
     },
     {
       "id": "london-2012",
@@ -261,7 +401,12 @@
       "difficulty": 3,
       "blurb": "The rings are forged: opening ceremony of the London Summer Olympics.",
       "credit": "Nick Webb (CC BY 2.0)",
-      "verified": { "license": "CC BY 2.0", "artist": "Nick Webb", "dateOriginal": "2012-07-27" }
+      "verified": {
+        "license": "CC BY 2.0",
+        "artist": "Nick Webb",
+        "dateOriginal": "2012-07-27"
+      },
+      "story": "Danny Boyle's ceremony forged the Olympic rings from a staged Industrial Revolution, parachuted the Queen in alongside James Bond, and gave 600 dancing NHS nurses a global stage. Roughly a billion people watched."
     },
     {
       "id": "pluto",
@@ -270,7 +415,12 @@
       "difficulty": 3,
       "blurb": "Pluto in true color, captured by New Horizons during humanity's first flyby of the dwarf planet.",
       "credit": "NASA / JHU-APL / SwRI — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA/Johns Hopkins University APL/SwRI", "dateOriginal": "2015-07-14" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA/Johns Hopkins University APL/SwRI",
+        "dateOriginal": "2015-07-14"
+      },
+      "story": "New Horizons flew nine and a half years and three billion miles for a flyby lasting hours, revealing a heart-shaped nitrogen glacier on a world demoted from planethood mid-journey. Discoverer Clyde Tombaugh's ashes rode aboard."
     },
     {
       "id": "ruth-1920",
@@ -279,7 +429,12 @@
       "difficulty": 4,
       "blurb": "Babe Ruth in his first season as a Yankee — the year the home run changed baseball.",
       "credit": "Paul Thompson — public domain",
-      "verified": { "license": "Public domain", "artist": "Paul Thompson", "dateOriginal": "1920" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Paul Thompson",
+        "dateOriginal": "1920"
+      },
+      "story": "The Yankees had just bought Ruth from Boston for $125,000; he answered with 54 home runs — more than any other entire team in the American League managed that season. The dead-ball era was over, and Boston's ensuing 86-year drought became the Curse of the Bambino."
     },
     {
       "id": "jaws-of-death",
@@ -288,7 +443,12 @@
       "difficulty": 2,
       "blurb": "\"Into the Jaws of Death\": U.S. troops wade toward Omaha Beach on the morning of D-Day.",
       "credit": "Robert F. Sargent, U.S. Coast Guard — public domain",
-      "verified": { "license": "Public domain", "artist": "Robert F. Sargent, USCG", "dateOriginal": "1944-06-06" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Robert F. Sargent, USCG",
+        "dateOriginal": "1944-06-06"
+      },
+      "story": "Coast Guard coxswain Robert Sargent shot this from the ramp of his landing craft at Omaha Beach on D-Day morning, delivering the 1st Infantry Division into machine-gun fire. By nightfall the Allies had put more than 150,000 men ashore."
     },
     {
       "id": "vj-kiss",
@@ -297,7 +457,12 @@
       "difficulty": 1,
       "blurb": "V-J Day in Times Square: a sailor's kiss as news of Japan's surrender breaks.",
       "credit": "Victor Jorgensen, U.S. Navy — public domain",
-      "verified": { "license": "Public domain", "artist": "Victor Jorgensen", "dateOriginal": "1945-08-14" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Victor Jorgensen",
+        "dateOriginal": "1945-08-14"
+      },
+      "story": "When Japan's surrender was announced, Times Square erupted. Navy photographer Victor Jorgensen caught the same kiss as Eisenstaedt's famous LIFE frame from a different angle — and the government version is the one that belongs to everyone."
     },
     {
       "id": "pershing-seoul",
@@ -306,7 +471,12 @@
       "difficulty": 3,
       "blurb": "A U.S. Marine Pershing tank in the streets of Seoul during the Korean War.",
       "credit": "U.S. Navy / Naval History and Heritage Command — public domain",
-      "verified": { "license": "Public domain", "artist": "Naval Historical Center", "dateOriginal": "1950-09-26" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Naval Historical Center",
+        "dateOriginal": "1950-09-26"
+      },
+      "story": "Three months after North Korea's invasion nearly pushed UN forces off the peninsula, the Inchon landing flipped the war in a week; this Marine Pershing rolled through the block-by-block fight to retake Seoul. The capital would change hands twice more before the armistice."
     },
     {
       "id": "space-needle-62",
@@ -315,7 +485,12 @@
       "difficulty": 3,
       "blurb": "The Space Needle rises over the Century 21 Exposition — the Seattle World's Fair.",
       "credit": "Seattle Municipal Archives — public domain",
-      "verified": { "license": "Public domain", "artist": "Seattle Municipal Archives", "dateOriginal": "1962-04" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "Seattle Municipal Archives",
+        "dateOriginal": "1962-04"
+      },
+      "story": "Built in about 400 days for the fair, the Space Needle anchored an exposition themed on life in the year 2000 — ten million visitors rode the new monorail and previewed touch-tone phones. Elvis filmed a movie on the grounds that fall."
     },
     {
       "id": "uh1-vietnam",
@@ -324,7 +499,12 @@
       "difficulty": 3,
       "blurb": "UH-1D helicopters lift infantry during Operation Wahiawa, northeast of Cu Chi, South Vietnam.",
       "credit": "James K. F. Dung, SFC, U.S. Army — public domain",
-      "verified": { "license": "Public domain", "artist": "James K. F. Dung, SFC", "dateOriginal": "1966-05-16" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "James K. F. Dung, SFC",
+        "dateOriginal": "1966-05-16"
+      },
+      "story": "The Huey's rotor thump became the signature sound of the war; more than 7,000 served in Vietnam and roughly half never came home. This lift was part of a 25th Infantry Division sweep near Cu Chi, above an immense Viet Cong tunnel network."
     },
     {
       "id": "atlantis-mir",
@@ -333,7 +513,12 @@
       "difficulty": 4,
       "blurb": "Space Shuttle Atlantis docked to Russia's Mir station, photographed from a departing Soyuz.",
       "credit": "NASA — public domain",
-      "verified": { "license": "Public domain", "artist": "NASA", "dateOriginal": "1995-07-04" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "NASA",
+        "dateOriginal": "1995-07-04"
+      },
+      "story": "The first shuttle-Mir docking briefly created the largest spacecraft ever assembled — and this photo exists only because a departing Soyuz backed off to take it. The handshake between rival programs led directly to the ISS."
     },
     {
       "id": "womens-march-17",
@@ -342,7 +527,12 @@
       "difficulty": 3,
       "blurb": "The Women's March on Washington, the day after the presidential inauguration.",
       "credit": "Voice of America — public domain",
-      "verified": { "license": "Public domain", "artist": "VOA", "dateOriginal": "2017-01-21" }
+      "verified": {
+        "license": "Public domain",
+        "artist": "VOA",
+        "dateOriginal": "2017-01-21"
+      },
+      "story": "With sister marches on every continent — including a boat off Antarctica — the day drew an estimated four million participants in the U.S. alone, likely the largest single-day protest in American history."
     },
     {
       "id": "falcon-heavy",
@@ -351,7 +541,12 @@
       "difficulty": 3,
       "blurb": "Falcon Heavy's first flight leaves Pad 39A — with a Roadster for a payload.",
       "credit": "SpaceX (CC0)",
-      "verified": { "license": "CC0", "artist": "SpaceX", "dateOriginal": "2018-02-06" }
+      "verified": {
+        "license": "CC0",
+        "artist": "SpaceX",
+        "dateOriginal": "2018-02-06"
+      },
+      "story": "The demo flight carried a Tesla Roadster with a spacesuited mannequin at the wheel, now orbiting the Sun beyond Mars. Both side boosters landed back at the Cape in formation — the moment reusable rockets stopped looking experimental."
     },
     {
       "id": "times-square-20",
@@ -360,7 +555,12 @@
       "difficulty": 2,
       "blurb": "Times Square, deserted at midday in the first spring of the pandemic.",
       "credit": "Aaron Barlow (CC BY-SA 4.0)",
-      "verified": { "license": "CC BY-SA 4.0", "artist": "Aaron Barlow", "dateOriginal": "2020-04-18" }
+      "verified": {
+        "license": "CC BY-SA 4.0",
+        "artist": "Aaron Barlow",
+        "dateOriginal": "2020-04-18"
+      },
+      "story": "New York was then the pandemic's global epicenter, losing hundreds of people a day while the Crossroads of the World stood empty at noon. The billboards kept playing to nobody."
     },
     {
       "id": "perseverance-21",
@@ -369,17 +569,70 @@
       "difficulty": 4,
       "blurb": "Perseverance's selfie with the Ingenuity helicopter at Jezero Crater, Mars.",
       "credit": "NASA / JPL-Caltech / MSSS",
-      "verified": { "license": "Attribution", "artist": "NASA/JPL-Caltech/MSSS", "dateOriginal": "2021-04-06" }
+      "verified": {
+        "license": "Attribution",
+        "artist": "NASA/JPL-Caltech/MSSS",
+        "dateOriginal": "2021-04-06"
+      },
+      "story": "Perseverance posed with Ingenuity, a four-pound helicopter that days later made the first powered flight on another planet — carrying a swatch of the Wright Flyer's wing fabric. Rated for five flights, it flew 72."
     }
   ],
   "schedule": {
-    "2026-07-21": ["aldrin", "st-helens", "olympics-84", "times-square-73", "sf-earthquake"],
-    "2026-07-22": ["challenger", "kuwait-fires", "inauguration-09", "lindbergh", "subway-graffiti-73"],
-    "2026-07-23": ["titanic", "reagan-wall", "voyager-launch", "elvis-nixon", "unity-sts88"],
-    "2026-07-24": ["first-flight", "migrant-mother", "pluto", "pool-it-74", "occupy"],
-    "2026-07-25": ["earthrise", "mlk-march", "deepwater", "london-2012", "blue-marble"],
-    "2026-07-26": ["hindenburg", "katrina", "sally-ride", "sts-1", "spaceshipone"],
-    "2026-07-27": ["vj-kiss", "times-square-20", "space-needle-62", "falcon-heavy", "ruth-1920"],
-    "2026-07-28": ["jaws-of-death", "womens-march-17", "uh1-vietnam", "atlantis-mir", "perseverance-21"]
+    "2026-07-21": [
+      "aldrin",
+      "st-helens",
+      "olympics-84",
+      "times-square-73",
+      "sf-earthquake"
+    ],
+    "2026-07-22": [
+      "challenger",
+      "kuwait-fires",
+      "inauguration-09",
+      "lindbergh",
+      "subway-graffiti-73"
+    ],
+    "2026-07-23": [
+      "titanic",
+      "reagan-wall",
+      "voyager-launch",
+      "elvis-nixon",
+      "unity-sts88"
+    ],
+    "2026-07-24": [
+      "first-flight",
+      "migrant-mother",
+      "pluto",
+      "pool-it-74",
+      "occupy"
+    ],
+    "2026-07-25": [
+      "earthrise",
+      "mlk-march",
+      "deepwater",
+      "london-2012",
+      "blue-marble"
+    ],
+    "2026-07-26": [
+      "hindenburg",
+      "katrina",
+      "sally-ride",
+      "sts-1",
+      "spaceshipone"
+    ],
+    "2026-07-27": [
+      "vj-kiss",
+      "times-square-20",
+      "space-needle-62",
+      "falcon-heavy",
+      "ruth-1920"
+    ],
+    "2026-07-28": [
+      "jaws-of-death",
+      "womens-march-17",
+      "uh1-vietnam",
+      "atlantis-mir",
+      "perseverance-21"
+    ]
   }
 }

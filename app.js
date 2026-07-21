@@ -4,7 +4,7 @@
   // ---------- Config ----------
 
   const CONFIG = {
-    name: "Timeline",          // game name; single place to change on rename
+    name: "Yearglass",         // game name; single place to change on rename
     puzzlePath: "puzzles/",    // where daily blobs live (static dir or CDN)
     analyticsEndpoint: "",     // set to a collector URL (see infra/worker.js) to enable
   };
@@ -363,7 +363,11 @@
     }
 
     els.resultsBreakdown.innerHTML = "";
-    results.forEach((r) => {
+    results.forEach((r, i) => {
+      const round = puzzle.rounds[i];
+      const card = document.createElement("div");
+      card.className = "breakdown-card";
+
       const row = document.createElement("div");
       row.className = "breakdown-row";
 
@@ -386,7 +390,29 @@
       ptsEl.textContent = fmt(r.pts);
 
       row.append(emoji, desc, errEl, ptsEl);
-      els.resultsBreakdown.appendChild(row);
+      card.appendChild(row);
+
+      if (round) {
+        const story = document.createElement("div");
+        story.className = "breakdown-story";
+        const thumb = document.createElement("img");
+        thumb.className = "breakdown-thumb";
+        thumb.src = round.image;
+        thumb.alt = round.blurb;
+        thumb.loading = "lazy";
+        const text = document.createElement("div");
+        const blurb = document.createElement("p");
+        blurb.className = "breakdown-blurb";
+        blurb.textContent = round.blurb;
+        const storyP = document.createElement("p");
+        storyP.className = "breakdown-story-text";
+        storyP.textContent = round.story || "";
+        text.append(blurb, storyP);
+        story.append(thumb, text);
+        card.appendChild(story);
+      }
+
+      els.resultsBreakdown.appendChild(card);
     });
 
     startCountdown();

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About — Timeline</title>
-<meta name="description" content="About Timeline: how it works, privacy, and photo credits.">
+<title>About — Yearglass</title>
+<meta name="description" content="About Yearglass: how it works, privacy, and photo credits.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
 <style>
@@ -52,42 +52,42 @@ body { overflow: auto; }
   <p>Every photograph is a public-domain or Creative Commons–licensed work,
   drawn from institutional archives (Library of Congress, U.S. National
   Archives, NASA, NOAA, USGS) and the Wikimedia Commons community. Each
-  reveal shows the photographer and license; the full list for the current
-  library is below. If you are a rights holder with a concern, open an issue
-  on the project repository and the image will be reviewed promptly.</p>
+  reveal shows the photographer and license. Credits for today's five
+  photographs are listed below — only today's, so nothing about future
+  puzzles is spoiled. If you are a rights holder with a concern, open an
+  issue on the project repository and the image will be reviewed promptly.</p>
 
-  <div id="credits"><p class="dim">Loading credits…</p></div>
+  <div id="credits"><p class="dim">Loading today's credits…</p></div>
 
   <h2>Contact</h2>
   <p class="dim">This is a small independent game in playtesting. Feedback is
   gold: how did the difficulty feel, and did you share your grid?</p>
 </div>
 <script>
-fetch("content/library.json")
-  .then((r) => r.json())
-  .then((lib) => {
+// Only today's five credits: listing the whole library would spoil future
+// puzzles. Round numbers only — no titles, so pre-play visitors see nothing.
+const todayStr = new Date().toISOString().slice(0, 10);
+fetch("puzzles/" + todayStr + ".json")
+  .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+  .then((puzzle) => {
     const wrap = document.getElementById("credits");
     wrap.innerHTML = "";
-    for (const img of lib.images.slice().sort((a, b) => a.credit.localeCompare(b.credit))) {
+    puzzle.rounds.forEach((round, i) => {
       const row = document.createElement("div");
       row.className = "credit-row";
       const file = document.createElement("span");
       file.className = "file";
-      const a = document.createElement("a");
-      a.href = "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(img.commonsFile);
-      a.textContent = img.commonsFile.length > 60 ? img.commonsFile.slice(0, 57) + "…" : img.commonsFile;
-      a.rel = "noopener";
-      file.appendChild(a);
+      file.textContent = "Photo " + (i + 1);
       const lic = document.createElement("span");
       lic.className = "lic";
-      lic.textContent = img.credit;
+      lic.textContent = round.credit;
       row.append(file, lic);
       wrap.appendChild(row);
-    }
+    });
   })
   .catch(() => {
     document.getElementById("credits").innerHTML =
-      '<p class="dim">Credits unavailable — every image’s credit is shown on its reveal in the game.</p>';
+      '<p class="dim">Credits unavailable — every photograph’s credit is shown on its reveal in the game.</p>';
   });
 </script>
 </body>

@@ -6,31 +6,36 @@
       "image": "assets/jaws-of-death.jpg",
       "year": 1944,
       "blurb": "\"Into the Jaws of Death\": U.S. troops wade toward Omaha Beach on the morning of D-Day.",
-      "credit": "Robert F. Sargent, U.S. Coast Guard \u2014 public domain"
+      "credit": "Robert F. Sargent, U.S. Coast Guard \u2014 public domain",
+      "story": "Coast Guard coxswain Robert Sargent shot this from the ramp of his landing craft at Omaha Beach on D-Day morning, delivering the 1st Infantry Division into machine-gun fire. By nightfall the Allies had put more than 150,000 men ashore."
     },
     {
       "image": "assets/womens-march-17.jpg",
       "year": 2017,
       "blurb": "The Women's March on Washington, the day after the presidential inauguration.",
-      "credit": "Voice of America \u2014 public domain"
+      "credit": "Voice of America \u2014 public domain",
+      "story": "With sister marches on every continent \u2014 including a boat off Antarctica \u2014 the day drew an estimated four million participants in the U.S. alone, likely the largest single-day protest in American history."
     },
     {
       "image": "assets/uh1-vietnam.jpg",
       "year": 1966,
       "blurb": "UH-1D helicopters lift infantry during Operation Wahiawa, northeast of Cu Chi, South Vietnam.",
-      "credit": "James K. F. Dung, SFC, U.S. Army \u2014 public domain"
+      "credit": "James K. F. Dung, SFC, U.S. Army \u2014 public domain",
+      "story": "The Huey's rotor thump became the signature sound of the war; more than 7,000 served in Vietnam and roughly half never came home. This lift was part of a 25th Infantry Division sweep near Cu Chi, above an immense Viet Cong tunnel network."
     },
     {
       "image": "assets/atlantis-mir.jpg",
       "year": 1995,
       "blurb": "Space Shuttle Atlantis docked to Russia's Mir station, photographed from a departing Soyuz.",
-      "credit": "NASA \u2014 public domain"
+      "credit": "NASA \u2014 public domain",
+      "story": "The first shuttle-Mir docking briefly created the largest spacecraft ever assembled \u2014 and this photo exists only because a departing Soyuz backed off to take it. The handshake between rival programs led directly to the ISS."
     },
     {
       "image": "assets/perseverance-21.jpg",
       "year": 2021,
       "blurb": "Perseverance's selfie with the Ingenuity helicopter at Jezero Crater, Mars.",
-      "credit": "NASA / JPL-Caltech / MSSS"
+      "credit": "NASA / JPL-Caltech / MSSS",
+      "story": "Perseverance posed with Ingenuity, a four-pound helicopter that days later made the first powered flight on another planet \u2014 carrying a swatch of the Wright Flyer's wing fabric. Rated for five flights, it flew 72."
     }
   ]
 }

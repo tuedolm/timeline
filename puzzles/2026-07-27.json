@@ -6,31 +6,36 @@
       "image": "assets/vj-kiss.jpg",
       "year": 1945,
       "blurb": "V-J Day in Times Square: a sailor's kiss as news of Japan's surrender breaks.",
-      "credit": "Victor Jorgensen, U.S. Navy \u2014 public domain"
+      "credit": "Victor Jorgensen, U.S. Navy \u2014 public domain",
+      "story": "When Japan's surrender was announced, Times Square erupted. Navy photographer Victor Jorgensen caught the same kiss as Eisenstaedt's famous LIFE frame from a different angle \u2014 and the government version is the one that belongs to everyone."
     },
     {
       "image": "assets/times-square-20.jpg",
       "year": 2020,
       "blurb": "Times Square, deserted at midday in the first spring of the pandemic.",
-      "credit": "Aaron Barlow (CC BY-SA 4.0)"
+      "credit": "Aaron Barlow (CC BY-SA 4.0)",
+      "story": "New York was then the pandemic's global epicenter, losing hundreds of people a day while the Crossroads of the World stood empty at noon. The billboards kept playing to nobody."
     },
     {
       "image": "assets/space-needle-62.jpg",
       "year": 1962,
       "blurb": "The Space Needle rises over the Century 21 Exposition \u2014 the Seattle World's Fair.",
-      "credit": "Seattle Municipal Archives \u2014 public domain"
+      "credit": "Seattle Municipal Archives \u2014 public domain",
+      "story": "Built in about 400 days for the fair, the Space Needle anchored an exposition themed on life in the year 2000 \u2014 ten million visitors rode the new monorail and previewed touch-tone phones. Elvis filmed a movie on the grounds that fall."
     },
     {
       "image": "assets/falcon-heavy.jpg",
       "year": 2018,
       "blurb": "Falcon Heavy's first flight leaves Pad 39A \u2014 with a Roadster for a payload.",
-      "credit": "SpaceX (CC0)"
+      "credit": "SpaceX (CC0)",
+      "story": "The demo flight carried a Tesla Roadster with a spacesuited mannequin at the wheel, now orbiting the Sun beyond Mars. Both side boosters landed back at the Cape in formation \u2014 the moment reusable rockets stopped looking experimental."
     },
     {
       "image": "assets/ruth-1920.jpg",
       "year": 1920,
       "blurb": "Babe Ruth in his first season as a Yankee \u2014 the year the home run changed baseball.",
-      "credit": "Paul Thompson \u2014 public domain"
+      "credit": "Paul Thompson \u2014 public domain",
+      "story": "The Yankees had just bought Ruth from Boston for $125,000; he answered with 54 home runs \u2014 more than any other entire team in the American League managed that season. The dead-ball era was over, and Boston's ensuing 86-year drought became the Curse of the Bambino."
     }
   ]
 }

@@ -6,31 +6,36 @@
       "image": "assets/hindenburg.jpg",
       "year": 1937,
       "blurb": "The airship Hindenburg burns while landing at Naval Air Station Lakehurst, New Jersey.",
-      "credit": "Sam Shere \u2014 public domain"
+      "credit": "Sam Shere \u2014 public domain",
+      "story": "The largest aircraft ever built burned in about half a minute while landing; remarkably, 62 of the 97 aboard survived. Filmed, photographed, and narrated live on radio, the disaster ended the airship era overnight."
     },
     {
       "image": "assets/katrina.jpg",
       "year": 2005,
       "blurb": "New Orleans under water in the days after Hurricane Katrina.",
-      "credit": "Cmdr. Mark Moran / NOAA \u2014 public domain"
+      "credit": "Cmdr. Mark Moran / NOAA \u2014 public domain",
+      "story": "The levees failed in more than 50 places and 80% of New Orleans went underwater for weeks. Katrina killed more than 1,800 people and remains the costliest hurricane in U.S. history."
     },
     {
       "image": "assets/sally-ride.jpg",
       "year": 1983,
       "blurb": "Sally Ride on Challenger's flight deck during STS-7 \u2014 America's first woman in space.",
-      "credit": "NASA / National Archives \u2014 public domain"
+      "credit": "NASA / National Archives \u2014 public domain",
+      "story": "Chosen from NASA's first astronaut class open to women, Ride spent the run-up fielding press questions about whether she would cry in orbit. Aboard STS-7 she operated the robot arm she had helped design."
     },
     {
       "image": "assets/sts-1.jpg",
       "year": 1981,
       "blurb": "Space Shuttle Columbia lifts off on STS-1, the first flight of the Shuttle program.",
-      "credit": "NASA \u2014 public domain"
+      "credit": "NASA \u2014 public domain",
+      "story": "Columbia's first flight was the first time NASA put crew on a vehicle that had never flown uncrewed \u2014 John Young and Bob Crippen rode boosters that had only ever been fired on a test stand. It launched twenty years to the day after Gagarin."
     },
     {
       "image": "assets/spaceshipone.jpg",
       "year": 2004,
       "blurb": "Test pilot Mike Melvill celebrates atop SpaceShipOne after the first privately funded human spaceflight.",
-      "credit": "Don Ramey Logan (CC BY-SA 3.0)"
+      "credit": "Don Ramey Logan (CC BY-SA 3.0)",
+      "story": "Melvill rode SpaceShipOne past the edge of space on the first of the two flights that clinched the $10 million Ansari X Prize. It was the first privately built and funded craft to carry a human to space \u2014 the proof of concept behind commercial spaceflight."
     }
   ]
 }

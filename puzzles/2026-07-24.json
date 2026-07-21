@@ -6,31 +6,36 @@
       "image": "assets/first-flight.jpg",
       "year": 1903,
       "blurb": "Orville Wright pilots the first powered flight at Kitty Hawk, North Carolina, while Wilbur runs alongside.",
-      "credit": "John T. Daniels / Library of Congress \u2014 public domain"
+      "credit": "John T. Daniels / Library of Congress \u2014 public domain",
+      "story": "The flight lasted twelve seconds and covered 120 feet \u2014 shorter than a 747's wingspan. John Daniels, a lifeguard who had never worked a camera before, squeezed the shutter bulb exactly once that morning and captured one of history's most reproduced images."
     },
     {
       "image": "assets/migrant-mother.jpg",
       "year": 1936,
       "blurb": "Dorothea Lange's \"Migrant Mother\": Florence Owens Thompson in a pea pickers' camp in Nipomo, California.",
-      "credit": "Dorothea Lange / Farm Security Administration \u2014 public domain"
+      "credit": "Dorothea Lange / Farm Security Administration \u2014 public domain",
+      "story": "Florence Owens Thompson, 32 and a mother of seven, sat in a pea pickers' camp where the crop had frozen. Lange stopped for ten minutes and made six exposures; the last became the defining image of the Great Depression."
     },
     {
       "image": "assets/pluto.jpg",
       "year": 2015,
       "blurb": "Pluto in true color, captured by New Horizons during humanity's first flyby of the dwarf planet.",
-      "credit": "NASA / JHU-APL / SwRI \u2014 public domain"
+      "credit": "NASA / JHU-APL / SwRI \u2014 public domain",
+      "story": "New Horizons flew nine and a half years and three billion miles for a flyby lasting hours, revealing a heart-shaped nitrogen glacier on a world demoted from planethood mid-journey. Discoverer Clyde Tombaugh's ashes rode aboard."
     },
     {
       "image": "assets/pool-it-74.jpg",
       "year": 1974,
       "blurb": "A carpooling appeal near Vancouver, Washington, as the first oil crisis dragged on.",
-      "credit": "David Falconer / EPA Documerica, National Archives \u2014 public domain"
+      "credit": "David Falconer / EPA Documerica, National Archives \u2014 public domain",
+      "story": "OPEC's embargo quadrupled oil prices in months; America answered with odd-even gas rationing, a 55 mph national speed limit, and signs like this one. The era of the cheap-gas land yacht never came back."
     },
     {
       "image": "assets/occupy.jpg",
       "year": 2011,
       "blurb": "Occupy Wall Street gathers near Zuccotti Park on the movement's first day.",
-      "credit": "David Shankbone (CC BY 3.0)"
+      "credit": "David Shankbone (CC BY 3.0)",
+      "story": "A few hundred people in a granite plaza grew into encampments in hundreds of cities and put 'the 1%' into the political vocabulary. The Zuccotti Park camp lasted 59 days before police cleared it."
     }
   ]
 }

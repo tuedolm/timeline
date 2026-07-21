@@ -6,31 +6,36 @@
       "image": "assets/earthrise.jpg",
       "year": 1968,
       "blurb": "\"Earthrise,\" taken from lunar orbit during Apollo 8 \u2014 the first crewed mission to leave Earth orbit.",
-      "credit": "Bill Anders / NASA \u2014 public domain"
+      "credit": "Bill Anders / NASA \u2014 public domain",
+      "story": "Coming around the Moon's far side on the fourth orbit, Bill Anders grabbed the only color film aboard and shot Earth rising over the lunar horizon. It has been called the most influential environmental photograph ever taken."
     },
     {
       "image": "assets/mlk-march.jpg",
       "year": 1963,
       "blurb": "Martin Luther King Jr. at the March on Washington for Jobs and Freedom.",
-      "credit": "Rowland Scherman / U.S. Information Agency \u2014 public domain"
+      "credit": "Rowland Scherman / U.S. Information Agency \u2014 public domain",
+      "story": "A quarter-million people marched on Washington for jobs and freedom. Near the end of the program, singer Mahalia Jackson called out 'Tell them about the dream, Martin' \u2014 and King set aside his prepared text."
     },
     {
       "image": "assets/deepwater.jpg",
       "year": 2010,
       "blurb": "Fireboats battle the Deepwater Horizon blaze in the Gulf of Mexico.",
-      "credit": "U.S. Coast Guard \u2014 public domain"
+      "credit": "U.S. Coast Guard \u2014 public domain",
+      "story": "The blowout killed 11 workers and sank the rig two days later; the well then leaked for 87 days, some four million barrels \u2014 the largest marine oil spill in history. Penalties eventually passed $60 billion."
     },
     {
       "image": "assets/london-2012.jpg",
       "year": 2012,
       "blurb": "The rings are forged: opening ceremony of the London Summer Olympics.",
-      "credit": "Nick Webb (CC BY 2.0)"
+      "credit": "Nick Webb (CC BY 2.0)",
+      "story": "Danny Boyle's ceremony forged the Olympic rings from a staged Industrial Revolution, parachuted the Queen in alongside James Bond, and gave 600 dancing NHS nurses a global stage. Roughly a billion people watched."
     },
     {
       "image": "assets/blue-marble.jpg",
       "year": 1972,
       "blurb": "\"The Blue Marble,\" taken by the crew of Apollo 17 \u2014 the last crewed lunar mission \u2014 on the way to the Moon.",
-      "credit": "NASA / Apollo 17 crew \u2014 public domain"
+      "credit": "NASA / Apollo 17 crew \u2014 public domain",
+      "story": "Taken about five hours after launch with the Sun squarely behind the spacecraft \u2014 the only time a human crew has photographed a fully lit Earth. Within months it was an emblem of the environmental movement."
     }
   ]
 }
