@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yearglass — Traffic &amp; Engagement</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #101014;
+    --surface: #1a1a1f;
+    --surface-2: #23232b;
+    --line: #2e2e37;
+    --text: #f4f2ec;
+    --text-dim: #9a97a0;
+    --text-mute: #6b6872;
+    --accent: #e8a33d;
+    --series-visitors: #3987e5;
+    --series-plays: #22a06b;
+    --good: #4caf6e;
+    --warn: #e8a33d;
+    --bad: #e05252;
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f5f2;
+    --surface: #ffffff;
+    --surface-2: #f0efec;
+    --line: #e3e1db;
+    --text: #16151a;
+    --text-dim: #5c5a63;
+    --text-mute: #8a8891;
+    --series-visitors: #2a78d6;
+    --series-plays: #008300;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f6f5f2; --surface: #ffffff; --surface-2: #f0efec; --line: #e3e1db;
+      --text: #16151a; --text-dim: #5c5a63; --text-mute: #8a8891;
+      --series-visitors: #2a78d6; --series-plays: #008300;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .brand { font-family: Georgia, "Times New Roman", serif; font-weight: 700; font-size: 24px; letter-spacing: 3px; }
+  .brand span { color: var(--accent); }
+  .updated { font-size: 12px; color: var(--text-mute); font-variant-numeric: tabular-nums; }
+  .subtitle { color: var(--text-dim); font-size: 15px; margin-bottom: 28px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 28px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 16px 14px; }
+  .kpi-value { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.5px; color: var(--accent); }
+  .kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-top: 4px; }
+  .kpi-sub { font-size: 11px; color: var(--text-mute); margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 15px; font-weight: 600; letter-spacing: 0.3px; }
+  .card-note { font-size: 12px; color: var(--text-mute); margin-top: 2px; margin-bottom: 16px; }
+
+  .legend { display: flex; gap: 18px; margin: 4px 0 14px; font-size: 12px; color: var(--text-dim); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .axis-label { fill: var(--text-mute); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .grid-line { stroke: var(--line); stroke-width: 1; }
+  .bar { transition: opacity .12s; }
+  .bar:hover { opacity: 0.78; }
+  .bar-label { fill: var(--text-dim); font-size: 10px; font-variant-numeric: tabular-nums; text-anchor: middle; }
+
+  .health-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line); }
+  .health-row:first-of-type { border-top: none; }
+  .health-label { font-size: 13px; }
+  .health-label small { color: var(--text-mute); display: block; font-size: 11px; }
+  .health-value { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pill { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; margin-left: 8px; }
+  .pill.good { background: rgba(76,175,110,.16); color: var(--good); }
+  .pill.warn { background: rgba(232,163,61,.16); color: var(--warn); }
+  .pill.bad { background: rgba(224,82,82,.16); color: var(--bad); }
+
+  .empty { color: var(--text-mute); font-size: 14px; padding: 28px 0; text-align: center; }
+  footer { margin-top: 26px; font-size: 12px; color: var(--text-mute); line-height: 1.6; }
+  footer a { color: var(--text-dim); }
+
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 20; opacity: 0;
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 11px; font-size: 12px; box-shadow: 0 6px 24px rgba(0,0,0,.35);
+    transition: opacity .1s; font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  #tooltip .tt-date { color: var(--text-dim); margin-bottom: 4px; font-size: 11px; }
+  #tooltip .tt-row { display: flex; align-items: center; gap: 6px; }
+
+  @media (max-width: 720px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .kpi-value { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">YEAR<span>GLASS</span> · metrics</div>
+    <div class="updated" id="updated">—</div>
+  </header>
+  <p class="subtitle">Anonymous traffic &amp; engagement, updated live from the game's analytics endpoint.</p>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="card">
+    <h2>Daily traffic</h2>
+    <p class="card-note">Unique visitors (distinct browsers per day) and completed games.</p>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-visitors)"></i> Visitors</span>
+      <span><i class="swatch" style="background:var(--series-plays)"></i> Games played</span>
+    </div>
+    <div id="traffic-chart"></div>
+  </div>
+
+  <div class="card">
+    <h2>Engagement &amp; game health</h2>
+    <p class="card-note">Signals for content tuning and quality of play.</p>
+    <div id="health"></div>
+  </div>
+
+  <footer>
+    No cookies, no user identifiers, no IP retention — every metric is an anonymous event count.
+    Source: <a id="src" href="#">/stats</a>. Numbers reflect all activity since launch.
+  </footer>
+</div>
+<div id="tooltip"></div>
+
+<script>
+"use strict";
+const ENDPOINT = "https://yearglass-analytics.tuedolm.workers.dev";
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => Number(n || 0).toLocaleString("en-US");
+const pct = (n) => (n * 100).toFixed(n >= 0.1 ? 0 : 1) + "%";
+const tooltip = $("#tooltip");
+
+$("#src").href = ENDPOINT + "/stats";
+
+function showTip(html, evt) {
+  tooltip.innerHTML = html;
+  tooltip.style.opacity = "1";
+  const pad = 14;
+  let x = evt.clientX + pad, y = evt.clientY + pad;
+  const r = tooltip.getBoundingClientRect();
+  if (x + r.width > window.innerWidth) x = evt.clientX - r.width - pad;
+  if (y + r.height > window.innerHeight) y = evt.clientY - r.height - pad;
+  tooltip.style.left = x + "px";
+  tooltip.style.top = y + "px";
+}
+function hideTip() { tooltip.style.opacity = "0"; }
+
+const SVGNS = "http://www.w3.org/2000/svg";
+const el = (name, attrs) => {
+  const n = document.createElementNS(SVGNS, name);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+function niceMax(v) {
+  if (v <= 5) return 5;
+  const pow = Math.pow(10, Math.floor(Math.log10(v)));
+  const steps = [1, 2, 2.5, 5, 10];
+  for (const s of steps) if (v <= s * pow) return s * pow;
+  return 10 * pow;
+}
+
+function renderTraffic(daily) {
+  const host = $("#traffic-chart");
+  host.innerHTML = "";
+  if (!daily.length) { host.innerHTML = '<div class="empty">No visits recorded yet — share the game and this fills in.</div>'; return; }
+
+  const data = daily.slice(-30);
+  const W = 920, H = 300, padL = 40, padR = 12, padT = 12, padB = 34;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const maxV = niceMax(Math.max(1, ...data.map(d => Math.max(d.visitors, d.plays))));
+  const groupW = plotW / data.length;
+  const barW = Math.min(18, groupW / 2.6);
+  const gap = 2;
+  const y = (v) => padT + plotH - (v / maxV) * plotH;
+
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Daily visitors and games played" });
+
+  // gridlines + y labels
+  const ticks = 4;
+  for (let i = 0; i <= ticks; i++) {
+    const val = (maxV / ticks) * i;
+    const yy = y(val);
+    svg.appendChild(el("line", { class: "grid-line", x1: padL, y1: yy, x2: W - padR, y2: yy }));
+    const t = el("text", { class: "axis-label", x: padL - 8, y: yy + 3, "text-anchor": "end" });
+    t.textContent = fmt(Math.round(val));
+    svg.appendChild(t);
+  }
+
+  const showEvery = Math.ceil(data.length / 12);
+  data.forEach((d, i) => {
+    const gx = padL + i * groupW + groupW / 2;
+    const series = [
+      { key: "visitors", val: d.visitors, color: "var(--series-visitors)", label: "Visitors" },
+      { key: "plays", val: d.plays, color: "var(--series-plays)", label: "Games played" },
+    ];
+    series.forEach((s, si) => {
+      const bx = gx - barW - gap / 2 + si * (barW + gap);
+      const by = y(s.val), bh = padT + plotH - by;
+      if (bh > 0) {
+        const rect = el("rect", { class: "bar", x: bx, y: by, width: barW, height: bh, rx: 3, fill: s.color });
+        const tip = `<div class="tt-date">${d.d}</div>` +
+          series.map(ss => `<div class="tt-row"><i class="swatch" style="background:${ss.color}"></i>${ss.label}: <b>${fmt(ss.val)}</b></div>`).join("");
+        rect.addEventListener("mousemove", (e) => showTip(tip, e));
+        rect.addEventListener("mouseleave", hideTip);
+        svg.appendChild(rect);
+      }
+    });
+    if (i % showEvery === 0) {
+      const t = el("text", { class: "axis-label", x: gx, y: H - padB + 18, "text-anchor": "middle" });
+      t.textContent = d.d.slice(5); // MM-DD
+      svg.appendChild(t);
+    }
+  });
+
+  svg.appendChild(el("line", { class: "grid-line", x1: padL, y1: padT + plotH, x2: W - padR, y2: padT + plotH }));
+  host.appendChild(svg);
+}
+
+function healthRow(label, sub, value, pill) {
+  const row = document.createElement("div");
+  row.className = "health-row";
+  const left = document.createElement("div");
+  left.className = "health-label";
+  left.innerHTML = label + (sub ? `<small>${sub}</small>` : "");
+  const right = document.createElement("div");
+  right.className = "health-value";
+  right.innerHTML = value + (pill ? ` <span class="pill ${pill.cls}">${pill.text}</span>` : "");
+  row.append(left, right);
+  return row;
+}
+
+function renderHealth(data) {
+  const host = $("#health");
+  host.innerHTML = "";
+  const puzzles = data.puzzles || [];
+  const rounds = data.rounds || [];
+
+  const totalPlays = puzzles.reduce((s, p) => s + p.plays, 0);
+  if (!totalPlays) { host.innerHTML = '<div class="empty">No completed games yet.</div>'; return; }
+
+  // Median game score across puzzles (weighted by plays), vs PRD 12k–18k target.
+  const avgScore = Math.round(puzzles.reduce((s, p) => s + p.avg_total * p.plays, 0) / totalPlays);
+  let scorePill;
+  if (avgScore >= 12000 && avgScore <= 18000) scorePill = { cls: "good", text: "on target" };
+  else if (avgScore > 18000) scorePill = { cls: "warn", text: "too easy" };
+  else scorePill = { cls: "warn", text: "too hard" };
+  host.appendChild(healthRow("Average game score", "target band 12,000–18,000", fmt(avgScore) + " / 25,000", scorePill));
+
+  // % of rounds guessed within 2 years (PRD: should stay under 10%).
+  const totalGuesses = rounds.reduce((s, r) => s + r.guesses, 0);
+  const within2 = rounds.reduce((s, r) => s + (r.within2 || 0), 0);
+  if (totalGuesses) {
+    const rate = within2 / totalGuesses;
+    const pill = rate < 0.10 ? { cls: "good", text: "non-trivial" } : { cls: "warn", text: "may be leaking" };
+    host.appendChild(healthRow("Rounds nailed within 2 years", "high values mean the medium is giving it away", pct(rate), pill));
+  }
+
+  // Hint usage.
+  const hints = rounds.reduce((s, r) => s + (r.hints || 0), 0);
+  if (totalGuesses) host.appendChild(healthRow("Hint usage", "share of rounds where a hint was taken", pct(hints / totalGuesses)));
+
+  // Share rate.
+  const shares = (data.shares || []).reduce((s, x) => s + x.shares, 0);
+  const sharePill = shares / totalPlays >= 0.15 ? { cls: "good", text: "strong" } : null;
+  host.appendChild(healthRow("Share rate", "results grids copied per completed game", pct(shares / totalPlays), sharePill));
+}
+
+function renderKpis(data) {
+  const daily = data.daily || [];
+  const puzzles = data.puzzles || [];
+  const shares = (data.shares || []).reduce((s, x) => s + x.shares, 0);
+
+  const totalVisitors = daily.reduce((s, d) => s + d.visitors, 0);
+  const totalPlays = puzzles.reduce((s, p) => s + p.plays, 0);
+  const last7 = daily.slice(-7);
+  const avg7 = last7.length ? Math.round(last7.reduce((s, d) => s + d.visitors, 0) / last7.length) : 0;
+  const completion = totalVisitors ? totalPlays / totalVisitors : 0;
+  const shareRate = totalPlays ? shares / totalPlays : 0;
+
+  const kpis = [
+    { v: fmt(totalVisitors), l: "Unique visitors", s: "since launch" },
+    { v: fmt(avg7), l: "Avg daily visitors", s: "last 7 days" },
+    { v: fmt(totalPlays), l: "Games played", s: "completed" },
+    { v: totalVisitors ? pct(completion) : "—", l: "Completion rate", s: "visitors → finished" },
+    { v: totalPlays ? pct(shareRate) : "—", l: "Share rate", s: "grids copied" },
+  ];
+  $("#kpis").innerHTML = kpis.map(k =>
+    `<div class="kpi"><div class="kpi-value">${k.v}</div><div class="kpi-label">${k.l}</div><div class="kpi-sub">${k.s}</div></div>`
+  ).join("");
+}
+
+fetch(ENDPOINT + "/stats", { cache: "no-cache" })
+  .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+  .then((data) => {
+    renderKpis(data);
+    renderTraffic(data.daily || []);
+    renderHealth(data);
+    const now = new Date();
+    $("#updated").textContent = "updated " + now.toISOString().slice(0, 16).replace("T", " ") + " UTC";
+  })
+  .catch((e) => {
+    $("#kpis").innerHTML = '<div class="empty" style="grid-column:1/-1">Could not load metrics (' + e.message + '). The analytics endpoint may be waking up — refresh in a moment.</div>';
+  });
+</script>
+</body>
+</html>

@@ -523,7 +523,7 @@
 
   async function boot() {
     els.wordmark.textContent = CONFIG.name.toUpperCase();
-    document.title = `${CONFIG.name} — the daily photo dating game`;
+    document.title = `${CONFIG.name} — the daily photo game`;
     els.slider.setAttribute("aria-valuemin", MIN_YEAR);
     els.slider.setAttribute("aria-valuemax", MAX_YEAR);
     buildTicks();
