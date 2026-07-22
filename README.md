@@ -86,8 +86,22 @@ public launch.
 
 ## Playtest deployment
 
-Live at **https://yearshot.com/** (GitHub Pages from `main`).
-Deploy updates with `git push` (regenerate puzzles first if content changed).
+Live at **https://yearshot.com/**. `git push` triggers
+`.github/workflows/deploy.yml`, which assembles a `_site` directory and
+publishes **only what a player needs**:
+
+    index.html about.html dashboard.html app.js styles.css
+    favicon.svg og.png manifest.webmanifest CNAME puzzles/ assets/
+
+`content/`, `tools/`, `infra/` and `docs/` are deliberately excluded. Serving
+the whole repository put the entire library — every future answer — at a public
+URL, which defeats the point of shipping one day at a time. The curation and
+schedule tools are local-only for the same reason: run
+`python3 -m http.server 8471` and open `tools/curate.html` or
+`tools/schedule.html`.
+
+Tomorrow's puzzle blob is still guessable by URL. Fixing that properly needs a
+server that refuses to serve future dates; it is not worth it at playtest size.
 
 ## Launch checklist
 
