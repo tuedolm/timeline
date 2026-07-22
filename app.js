@@ -165,7 +165,8 @@
     "hint-chips", "hint-btn",
     "next-btn", "results", "results-name", "results-number", "results-grid",
     "results-total", "results-streak", "results-breakdown", "share-btn",
-    "share-feedback", "countdown", "help-modal", "help-btn", "help-close",
+    "share-feedback", "img-story-btn", "img-square-btn",
+    "countdown", "help-modal", "help-btn", "help-close",
     "stats-modal", "stats-btn", "stats-close", "stat-games", "stat-avg",
     "stat-best", "stat-streak", "stat-max-streak", "band-bars",
   ]) {
@@ -478,6 +479,130 @@
     countdownTimer = setInterval(tick, 1000);
   }
 
+  // ---------- Shareable result image ----------
+
+  // Band colours for the drawn grid. Emoji render inconsistently in canvas, so
+  // the squares are drawn as shapes; "wild" becomes a visible grey rather than
+  // the share text's ⬛, which would disappear against the dark card.
+  const CARD_COLORS = { g: "#4caf6e", y: "#e8c53d", o: "#e8973d", r: "#e05252", b: "#4a4a55" };
+
+  const SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  const SERIF = "Georgia, 'Times New Roman', serif";
+
+  // Story is a taller canvas, not just a padded square: everything scales up so
+  // the composition fills Instagram's usable band (roughly y 250–1670) instead
+  // of floating as a small block in the middle.
+  const CARD_LAYOUT = {
+    square: { wm: 76, wmLs: 14, num: 36, sq: 128, gap: 22, score: 104, out: 34, streak: 38, foot: 34, url: 30,
+              yWm: -300, yNum: -232, yGrid: -140, yScore: 130, yOut: 182, yStreak: 258, yFoot: 300, yFootStreak: 340 },
+    story:  { wm: 96, wmLs: 18, num: 44, sq: 150, gap: 26, score: 132, out: 42, streak: 46, foot: 40, url: 36,
+              yWm: -470, yNum: -385, yGrid: -265, yScore: 45, yOut: 110, yStreak: 200, yFoot: 300, yFootStreak: 360 },
+  };
+
+  function renderShareCard(format) {
+    const L = CARD_LAYOUT[format] || CARD_LAYOUT.square;
+    const W = 1080;
+    const H = format === "story" ? 1920 : 1080;
+    const canvas = document.createElement("canvas");
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext("2d");
+    const cx = W / 2, cy = H / 2;
+
+    ctx.fillStyle = "#101014";
+    ctx.fillRect(0, 0, W, H);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+
+    ctx.fillStyle = "#f2f0eb";
+    ctx.font = `700 ${L.wm}px ${SERIF}`;
+    ctx.letterSpacing = `${L.wmLs}px`;
+    // letterSpacing adds a trailing gap, so nudge right by half to re-centre.
+    ctx.fillText("YEARGLASS", cx + L.wmLs / 2, cy + L.yWm);
+    ctx.letterSpacing = "0px";
+
+    ctx.fillStyle = "#9a97a0";
+    ctx.font = `${L.num}px ${SANS}`;
+    ctx.fillText(`#${String(puzzle.number).padStart(3, "0")}`, cx, cy + L.yNum);
+
+    // The grid: colour only, no years — the card must stay spoiler-free.
+    const totalW = results.length * L.sq + (results.length - 1) * L.gap;
+    let x = cx - totalW / 2;
+    const gy = cy + L.yGrid;
+    for (const r of results) {
+      ctx.fillStyle = CARD_COLORS[r.band] || CARD_COLORS.b;
+      ctx.beginPath();
+      ctx.roundRect(x, gy, L.sq, L.sq, L.sq * 0.14);
+      ctx.fill();
+      x += L.sq + L.gap;
+    }
+
+    ctx.fillStyle = "#e8a33d";
+    ctx.font = `700 ${L.score}px ${SERIF}`;
+    ctx.fillText(fmt(totalScore()), cx, cy + L.yScore);
+
+    ctx.fillStyle = "#9a97a0";
+    ctx.font = `${L.out}px ${SANS}`;
+    ctx.fillText(`out of ${fmt(ROUNDS * MAX_POINTS)}`, cx, cy + L.yOut);
+
+    let footY = cy + L.yFoot;
+    if (stats.streak >= 2) {
+      ctx.fillStyle = "#f2f0eb";
+      ctx.font = `600 ${L.streak}px ${SANS}`;
+      ctx.fillText(`${stats.streak}-day streak`, cx, cy + L.yStreak);
+      footY = cy + L.yFootStreak;
+    }
+
+    ctx.strokeStyle = "#2e2e37";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - L.sq * 1.7, footY - L.foot * 1.5);
+    ctx.lineTo(cx + L.sq * 1.7, footY - L.foot * 1.5);
+    ctx.stroke();
+
+    ctx.fillStyle = "#c9c6cd";
+    ctx.font = `${L.foot}px ${SANS}`;
+    ctx.fillText("Five photographs. Guess the year.", cx, footY);
+
+    // Links don't survive Instagram Stories, so the URL is baked into pixels.
+    ctx.fillStyle = "#8a8792";
+    ctx.font = `${L.url}px ${SANS}`;
+    ctx.fillText(CONFIG.shareUrl.replace(/^https?:\/\//, "").replace(/\/$/, ""), cx, footY + L.url * 1.5);
+
+    return canvas;
+  }
+
+  async function shareImage(format) {
+    if (!puzzle || !results.length) return;
+    const canvas = renderShareCard(format);
+    const blob = await new Promise((res) => canvas.toBlob(res, "image/png"));
+    if (!blob) return;
+    const name = `yearglass-${String(puzzle.number).padStart(3, "0")}-${format}.png`;
+    const file = new File([blob], name, { type: "image/png" });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file] });
+        track("share", { n: puzzle.number });
+        return;
+      } catch (e) {
+        if (e && e.name === "AbortError") return;
+        // Otherwise fall through to a download.
+      }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    els.shareFeedback.textContent = "Image saved";
+    track("share", { n: puzzle.number });
+    setTimeout(() => { els.shareFeedback.textContent = ""; }, 2500);
+  }
+
   function copyToClipboard(text) {
     return navigator.clipboard.writeText(text).catch(() => {
       const ta = document.createElement("textarea");
@@ -508,6 +633,9 @@
     track("share", { n: puzzle.number });
     setTimeout(() => { els.shareFeedback.textContent = ""; }, 2500);
   });
+
+  els.imgStoryBtn.addEventListener("click", () => shareImage("story"));
+  els.imgSquareBtn.addEventListener("click", () => shareImage("square"));
 
   // ---------- Modals ----------
 

@@ -398,6 +398,29 @@ body {
   color: var(--text);
 }
 
+.share-image-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.share-image-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 2px;
+}
+
+.ghost-btn.small {
+  font-size: 13px;
+  padding: 7px 16px;
+  margin-top: 0;
+}
+
 #share-feedback {
   font-size: 13px;
   color: var(--green);
