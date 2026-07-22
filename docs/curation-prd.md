@@ -137,7 +137,25 @@ players costs more than it saves.
 
 ---
 
-## 6. Non-goals
+## 6. Variety is scheduled, not hoped for
+
+Every image carries a `topic` (a controlled list of twelve) and a `country`.
+Orbital images use "Space", because what a player sees is space, not the
+country that launched it.
+
+The starting library is badly lopsided and it was invisible until measured:
+**63% United States**, with space the largest topic by a distance. Curating one
+photograph at a time cannot reveal that, so the tool shows live coverage of
+what already exists, flags anything taking more than its fair share, and
+suggests searches aimed at the thinnest areas.
+
+`schedule_next.py` then scores every slot rather than dealing blindly: it
+penalises repeating a topic within a day, and repeating topics or countries
+used in the previous three days, while still running each day easy to hard.
+It is a preference, not a hard rule — a thin pool still schedules, it just
+does the best it can with what exists.
+
+## 7. Non-goals
 
 - Fully automatic curation. The filters exist to save reading time, never to
   make the final call.

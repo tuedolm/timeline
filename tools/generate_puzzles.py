@@ -34,6 +34,13 @@ LAUNCH = date(2026, 7, 21)  # puzzle #001
 HOTLINK_COMMONS = False
 IMAGE_WIDTH = 1600
 
+# Controlled vocabulary. Kept small on purpose: too many topics and nothing
+# ever collides, which defeats the point of scheduling for variety.
+TOPICS = {
+    "space", "conflict", "disaster", "politics", "protest", "sport",
+    "culture", "technology", "transport", "daily-life", "society", "science",
+}
+
 
 def image_url(img: dict) -> str:
     if HOTLINK_COMMONS:
@@ -58,6 +65,12 @@ def validate(lib: dict) -> list:
         kw = img.get("keywords")
         if not isinstance(kw, list) or len(kw) != 3 or not all(kw):
             errors.append(f"{where}: needs exactly 3 hint keywords")
+        # topic and country drive variety scheduling; without them a day can
+        # silently become five space photographs from the same country.
+        if img.get("topic") not in TOPICS:
+            errors.append(f"{where}: topic must be one of {sorted(TOPICS)}")
+        if not img.get("country"):
+            errors.append(f"{where}: missing country")
         if not img.get("verified", {}).get("license"):
             errors.append(f"{where}: license not verified")
         if img.get("difficulty") not in (1, 2, 3, 4, 5):

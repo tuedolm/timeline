@@ -63,6 +63,31 @@ label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;
 .lrow img{width:52px;height:36px;object-fit:cover;border-radius:4px}
 .lrow .y{font-weight:700}
 .lrow .x{background:none;border:none;color:var(--red);cursor:pointer;padding:4px;font-size:15px}
+.alt-label{font-size:11px;color:var(--mute);margin:10px 0 6px}
+.alt-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.alt-strip img{width:78px;height:56px;object-fit:cover;border-radius:5px;cursor:pointer;
+  background:#000;border:2px solid transparent;flex:none}
+.alt-strip img:hover{border-color:var(--dim)}
+.alt-strip img.on{border-color:var(--accent)}
+.coverage{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px;margin-top:26px}
+.cov-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+button.small{font-size:12px;padding:6px 12px}
+.cov-body{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.cov-col h4{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);
+  font-weight:600;margin-bottom:7px}
+.bar{display:grid;grid-template-columns:92px 1fr 30px;gap:8px;align-items:center;
+  font-size:12px;color:var(--dim);margin-bottom:4px}
+.bar i{display:block;height:12px;border-radius:3px;background:var(--blue);min-width:2px}
+.bar i.over{background:var(--accent)}
+.bar b{text-align:right;color:var(--text);font-weight:600}
+.cov-gaps{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;
+  color:var(--dim);line-height:1.7}
+.cov-gaps b{color:var(--accent)}
+.gap-chip{display:inline-block;background:var(--s2);border:1px solid var(--line);
+  border-radius:999px;padding:3px 10px;margin:3px 4px 0 0;cursor:pointer;color:var(--text)}
+.gap-chip:hover{border-color:var(--accent)}
+@media(max-width:700px){.cov-body{grid-template-columns:1fr}}
 #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;
   justify-content:center;z-index:50;cursor:zoom-out;padding:24px}
 #lightbox.on{display:flex}
@@ -96,6 +121,7 @@ label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;
   <div class="editor" id="editor" hidden>
     <div>
       <img id="preview" alt="candidate">
+      <div id="alts" hidden></div>
       <div class="checks" id="checks"></div>
       <div class="src" id="src"></div>
       <div class="blocked" id="blocked" hidden></div>
@@ -117,6 +143,25 @@ label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;
           </select>
         </div>
       </div>
+      <div class="row">
+        <div>
+          <label for="topic">Topic</label>
+          <!-- No default on purpose: defaulting to a real topic silently tags
+               everything the curator forgets to set, and "space" is already
+               the most over-represented category in the library. -->
+          <select id="topic">
+            <option value="" selected>— choose —</option>
+            <option>space</option><option>conflict</option><option>disaster</option>
+            <option>politics</option><option>protest</option><option>sport</option>
+            <option>culture</option><option>technology</option><option>transport</option>
+            <option>daily-life</option><option>society</option><option>science</option>
+          </select>
+        </div>
+        <div>
+          <label for="country">Country (or Space)</label>
+          <input id="country" placeholder="e.g. Czechoslovakia">
+        </div>
+      </div>
       <label for="id">id (kebab-case)</label>
       <input id="id">
       <label for="blurb">Reveal headline — one line</label>
@@ -132,6 +177,15 @@ label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;
         <button id="skip" class="rej">Skip</button>
       </div>
     </div>
+  </div>
+
+  <div class="coverage" id="coverage" hidden>
+    <div class="cov-head">
+      <strong>Library coverage</strong>
+      <button id="loadlib" class="sec small">Load content/library.json</button>
+    </div>
+    <div class="cov-body" id="cov-body"></div>
+    <div class="cov-gaps" id="cov-gaps"></div>
   </div>
 
   <div class="libbar">
@@ -179,7 +233,11 @@ const NOT_PHOTO = new RegExp("\\b(" + [
   "map of","maps of","atlas","cartograph","diagram","chart of",
   "painting","portrait painting","engraving","lithograph","etching","woodcut",
   "drawing","illustration","manuscript","poster","stamp","banknote","medal",
-  "gemälde","zeichnung","stich","karte"
+  // Non-English archives label these in their own language, and an
+  // English-only list let a Portuguese flag ("Bandeira") through.
+  "gemälde","zeichnung","stich","karte","flagge",
+  "bandeira","bandera","drapeau","vlag","flagga","lippu",
+  "mapa","mappa","carte de","escudo","brasão","wappen","pintura","peinture"
 ].join("|") + ")\\b", "i");
 
 const api = async (url) => (await fetch(url)).json();
@@ -266,16 +324,51 @@ function renderHits(hits) {
 
 async function loadEvent(title) {
   setStatus("Loading " + title + "…");
-  // The lead image of an event article is usually the defining photograph.
+  // The lead image is often the defining photograph — but plenty of articles
+  // lead with a flag, map or infobox graphic instead, so every image on the
+  // page is collected and offered rather than dead-ending on a bad lead.
   const j = await api("https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*"
-    + "&prop=pageimages|extracts&exintro=1&explaintext=1&piprop=original"
+    + "&prop=pageimages|extracts|images&imlimit=40&exintro=1&explaintext=1&piprop=original"
     + "&titles=" + encodeURIComponent(title));
   const page = Object.values(j.query?.pages || {})[0] || {};
   const summary = strip(page.extract);
-  const original = page.original?.source || "";
-  if (!original) { setStatus("That article has no lead image.", true); return; }
-  const file = decodeURIComponent(original.split("/").pop());
-  await loadFile(file, { summary, article: title });
+  const ctx = { summary, article: title };
+
+  const pageFiles = (page.images || [])
+    .map((i) => i.title.replace("File:", ""))
+    .filter((f) => /\.(jpe?g|png)$/i.test(f) && !NOT_PHOTO.test(f) && !/icon|symbol|arrow|blank/i.test(f));
+
+  const lead = page.original?.source
+    ? decodeURIComponent(page.original.source.split("/").pop()) : "";
+  const ordered = lead ? [lead, ...pageFiles.filter((f) => f !== lead)] : pageFiles;
+  if (!ordered.length) { setStatus("No usable images on that article.", true); return; }
+
+  articleFiles = ordered.slice(0, 12);
+  articleCtx = ctx;
+  await loadFile(articleFiles[0], ctx);
+  renderAlternates();
+}
+
+let articleFiles = [], articleCtx = {};
+
+function renderAlternates() {
+  const host = $("alts");
+  if (articleFiles.length < 2) { host.hidden = true; return; }
+  host.hidden = false;
+  host.innerHTML = '<div class="alt-label">Other images in this article — the lead is often a flag or map</div>';
+  const strip_ = document.createElement("div");
+  strip_.className = "alt-strip";
+  for (const f of articleFiles) {
+    const im = document.createElement("img");
+    im.src = "https://commons.wikimedia.org/wiki/Special:FilePath/"
+      + encodeURIComponent(f) + "?width=160";
+    im.loading = "lazy";
+    im.title = f;
+    if (current && f === current.commonsFile) im.className = "on";
+    im.onclick = async () => { await loadFile(f, articleCtx); renderAlternates(); };
+    strip_.appendChild(im);
+  }
+  host.appendChild(strip_);
 }
 
 async function loadFile(file, ctx = {}) {
@@ -360,14 +453,21 @@ function showEditor() {
   const graphic = blob.match(GRAPHIC);
   const notPhoto = [c.commonsFile, c.categories.join(" ")].join(" ").match(NOT_PHOTO);
   const free = FREE.test(c.license);
-  const big = c.width >= 1200;
+  // Tiered rather than a single cutoff. The game draws the photograph at most
+  // 900px wide, so ~1200px covers a high-DPR phone comfortably; between 800
+  // and 1200 it is merely soft, which is the curator's call to make, not a
+  // reason to hide genuinely important material. Below 800 it looks bad.
+  const big = c.width >= 800;
+  const soft = c.width < 1200;
   const isPhoto = (c.mime || "").startsWith("image/") && !(c.mime || "").includes("svg") && !notPhoto;
   const approx = approximate(c.dateOriginal) || approximate(c.summary.slice(0, 160));
 
   const line = (ok, text) => `<div class="${ok ? "ok" : "bad"}">${ok ? "✓" : "✗"} ${text}</div>`;
   $("checks").innerHTML =
     line(free, `Licence: ${c.license || "unknown"}`) +
-    line(big, `Resolution: ${c.width}×${c.height}`) +
+    (big && soft
+      ? `<div class="warn">! Resolution: ${c.width}×${c.height} — soft on a large screen, your call</div>`
+      : line(big, `Resolution: ${c.width}×${c.height}`)) +
     line(isPhoto, notPhoto ? `Not a photograph — looks like a ${notPhoto[0]}` : `Type: ${c.mime}`) +
     line(!approx, approx ? "Date is approximate — unusable" : "Date is not hedged") +
     (c.article ? `<div class="ok">✓ Story source: ${c.article}</div>` : `<div class="warn">! No article — you'll write the story cold</div>`);
@@ -381,9 +481,26 @@ function showEditor() {
       + `imagery of bodies, executions or atrocity does not.`;
   }
 
+  // Country is offered, never assumed — orbital shots are "Space", and the
+  // first country named in the article is usually where it happened.
+  const COUNTRIES = ["United States","United Kingdom","England","Scotland","France","Germany",
+    "Italy","Spain","Portugal","Netherlands","Belgium","Poland","Czechoslovakia","Czech Republic",
+    "Hungary","Austria","Switzerland","Sweden","Norway","Denmark","Finland","Iceland","Ireland",
+    "Russia","Soviet Union","Ukraine","Romania","Bulgaria","Greece","Turkey","Yugoslavia","Serbia",
+    "China","Japan","South Korea","North Korea","Vietnam","India","Pakistan","Indonesia","Thailand",
+    "Malaysia","Singapore","Philippines","Australia","New Zealand","Canada","Mexico","Brazil",
+    "Argentina","Chile","Peru","Colombia","Cuba","Egypt","Israel","Lebanon","Syria","Iraq","Iran",
+    "Kuwait","Saudi Arabia","South Africa","Nigeria","Kenya","Ethiopia","Morocco","Hong Kong"];
+  const hay = [c.article, c.summary.slice(0, 400), c.categories.join(" ")].join(" ");
+  const spaceish = /\b(orbit|lunar|moon|mars|spacecraft|astronaut|cosmonaut|satellite)\b/i.test(hay)
+    && !/\blaunch (pad|site|complex)\b/i.test(hay);
+  const found = COUNTRIES.find((n) => new RegExp("\\b" + n + "\\b", "i").test(hay));
+  $("country").value = spaceish ? "Space" : (found || "");
+
   const p = proposeYear(c);
   $("year").value = p.year || "";
   $("id").value = kebab(c.article || c.commonsFile);
+  $("topic").value = "";
   $("blurb").value = "";
   $("story").value = draftStory(c);
   $("keywords").value = "";
@@ -406,14 +523,22 @@ $("add").addEventListener("click", () => {
     alert("Need id, exact year, headline and story."); return;
   }
   if (kw.length !== 3) { alert("Need exactly 3 hint keywords, separated by ·"); return; }
+  if (!$("topic").value) { alert("Choose a topic — it drives variety scheduling."); return; }
+  if (!$("country").value.trim()) { alert("Set a country (or Space)."); return; }
   lib.push({
     id: $("id").value.trim(),
     commonsFile: current.commonsFile,
     year, difficulty: parseInt($("tier").value, 10),
+    topic: $("topic").value,
+    country: $("country").value.trim(),
     blurb: $("blurb").value.trim(),
     story: $("story").value.trim(),
     keywords: kw,
     credit: $("credit").value.trim(),
+    // Kept so stories can be rewritten later from the original source rather
+    // than from the extractive draft.
+    sourceSummary: (current.summary || "").slice(0, 600),
+    sourceArticle: current.article || "",
     verified: { license: current.license, artist: current.artist, dateOriginal: current.dateOriginal },
   });
   save();
@@ -423,7 +548,7 @@ $("add").addEventListener("click", () => {
 
 /* ---------- Library ---------- */
 
-function save() { localStorage.setItem(KEY, JSON.stringify(lib)); render(); }
+function save() { localStorage.setItem(KEY, JSON.stringify(lib)); render(); renderCoverage(); }
 
 function render() {
   $("count").textContent = `${lib.length} image(s) — ${Math.floor(lib.length / 5)} full day(s)`;
@@ -457,6 +582,96 @@ $("importfile").addEventListener("change", async (e) => {
 $("clear").addEventListener("click", () => {
   if (confirm("Clear the working library? Export first if you want to keep it.")) { lib = []; save(); }
 });
+
+/* ---------- Coverage ----------
+   The library is lopsided — 63% United States, space the largest topic by a
+   distance — and that is invisible while curating one photograph at a time.
+   Showing the shape of what already exists, plus the thinnest areas, turns
+   "find a good photo" into "find a good photo we are missing". */
+
+let existing = [];   // content/library.json, when it can be loaded
+
+async function loadExisting() {
+  try {
+    const j = await (await fetch("../content/library.json", { cache: "no-cache" })).json();
+    existing = j.images || [];
+  } catch { existing = []; }
+  renderCoverage();
+}
+
+const TOPIC_LIST = ["space","conflict","disaster","politics","protest","sport",
+                    "culture","technology","transport","daily-life","society","science"];
+
+function tally(list, key) {
+  const m = new Map();
+  for (const i of list) m.set(i[key] || "—", (m.get(i[key] || "—") || 0) + 1);
+  return [...m.entries()].sort((a, b) => b[1] - a[1]);
+}
+
+function bars(rows, total, host, overShare) {
+  host.innerHTML = "";
+  const max = Math.max(1, ...rows.map((r) => r[1]));
+  for (const [name, n] of rows.slice(0, 9)) {
+    const share = n / total;
+    const row = document.createElement("div"); row.className = "bar";
+    const l = document.createElement("span"); l.textContent = name;
+    const barWrap = document.createElement("span");
+    const bar = document.createElement("i");
+    bar.style.width = (n / max * 100) + "%";
+    if (share > overShare) bar.classList.add("over");
+    barWrap.appendChild(bar);
+    const b = document.createElement("b"); b.textContent = n;
+    row.append(l, barWrap, b);
+    host.appendChild(row);
+  }
+}
+
+function renderCoverage() {
+  const all = existing.concat(lib);
+  $("coverage").hidden = false;
+  if (!all.length) {
+    $("cov-body").innerHTML = "";
+    $("cov-gaps").textContent = "Load the library to see what is already covered.";
+    return;
+  }
+  $("cov-body").innerHTML = '<div class="cov-col"><h4>Topics</h4><div id="cov-topics"></div></div>'
+    + '<div class="cov-col"><h4>Countries</h4><div id="cov-countries"></div></div>';
+  const topics = tally(all, "topic"), countries = tally(all, "country");
+  // Amber marks anything taking more than its fair share.
+  bars(topics, all.length, $("cov-topics"), 1 / TOPIC_LIST.length * 2);
+  bars(countries, all.length, $("cov-countries"), 0.25);
+
+  const have = new Set(all.map((i) => i.topic));
+  const thin = TOPIC_LIST.filter((t) => !have.has(t)
+    || all.filter((i) => i.topic === t).length <= Math.max(1, all.length * 0.03));
+  const topCountry = countries[0];
+  const share = Math.round(topCountry[1] / all.length * 100);
+
+  const gaps = $("cov-gaps");
+  gaps.innerHTML = `<b>${all.length} images.</b> ${topCountry[0]} is ${share}% of the library`
+    + (share > 40 ? " — that is the thing to fix first." : ".")
+    + (thin.length ? `<br>Thinnest topics: <b>${thin.join(", ")}</b>.` : "")
+    + "<br>Try searching:";
+  // Suggestions aimed at the gaps, deliberately non-US and non-space.
+  const ideas = ["Suez Crisis","Tiananmen Square protests","Munich Olympics",
+    "Carnation Revolution","Chernobyl disaster","Bhopal disaster","Great Hanshin earthquake",
+    "Solidarity (Polish trade union)","Live Aid","Concorde first flight",
+    "Handover of Hong Kong","Apartheid","Berlin Airlift","Rwandan genocide memorial",
+    "Sydney Opera House opening","Kobe earthquake","Iranian Revolution","Woodstock"];
+  for (const idea of ideas.slice(0, 8)) {
+    const c = document.createElement("span");
+    c.className = "gap-chip"; c.textContent = idea;
+    c.onclick = () => {
+      document.querySelector('.mode[data-mode="event"]').click();
+      $("q").value = idea; run();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    gaps.appendChild(c);
+  }
+}
+
+$("loadlib").addEventListener("click", loadExisting);
+loadExisting();
 
 $("lightbox").addEventListener("click", () => $("lightbox").classList.remove("on"));
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") $("lightbox").classList.remove("on"); });

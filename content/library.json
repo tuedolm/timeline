@@ -19,7 +19,9 @@
         "coastal dunes",
         "canvas-and-wood wings",
         "a pilot lying prone"
-      ]
+      ],
+      "topic": "technology",
+      "country": "United States"
     },
     {
       "id": "sf-earthquake",
@@ -38,7 +40,9 @@
         "a west-coast city",
         "smoke along the skyline",
         "long skirts and hats"
-      ]
+      ],
+      "topic": "disaster",
+      "country": "United States"
     },
     {
       "id": "titanic",
@@ -57,7 +61,9 @@
         "ocean liner",
         "four funnels",
         "Edwardian dockside"
-      ]
+      ],
+      "topic": "transport",
+      "country": "United Kingdom"
     },
     {
       "id": "lindbergh",
@@ -76,7 +82,9 @@
         "single-engine monoplane",
         "leather flight coat",
         "transatlantic ambition"
-      ]
+      ],
+      "topic": "technology",
+      "country": "United States"
     },
     {
       "id": "migrant-mother",
@@ -95,7 +103,9 @@
         "drought migration",
         "government documentary photography",
         "worn canvas tent"
-      ]
+      ],
+      "topic": "society",
+      "country": "United States"
     },
     {
       "id": "hindenburg",
@@ -114,7 +124,9 @@
         "hydrogen airship",
         "mooring mast",
         "newsreel cameras"
-      ]
+      ],
+      "topic": "disaster",
+      "country": "United States"
     },
     {
       "id": "mlk-march",
@@ -133,7 +145,9 @@
         "civil rights rally",
         "a bank of microphones",
         "mass gathering on the Mall"
-      ]
+      ],
+      "topic": "protest",
+      "country": "United States"
     },
     {
       "id": "earthrise",
@@ -152,7 +166,9 @@
         "lunar orbit",
         "colour film in space",
         "no bootprints down there yet"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     },
     {
       "id": "aldrin",
@@ -171,7 +187,9 @@
         "lunar surface",
         "gold reflective visor",
         "the first bootprints"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     },
     {
       "id": "elvis-nixon",
@@ -190,7 +208,9 @@
         "the Oval Office",
         "wide lapels and sideburns",
         "an unlikely handshake"
-      ]
+      ],
+      "topic": "culture",
+      "country": "United States"
     },
     {
       "id": "blue-marble",
@@ -209,7 +229,9 @@
         "a fully lit Earth",
         "translunar coast",
         "the last crewed trip out"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     },
     {
       "id": "times-square-73",
@@ -228,7 +250,9 @@
         "marquee cinemas",
         "boxy sedans",
         "pre-cleanup Manhattan"
-      ]
+      ],
+      "topic": "daily-life",
+      "country": "United States"
     },
     {
       "id": "subway-graffiti-73",
@@ -247,7 +271,9 @@
         "spray-painted subway car",
         "wide collars",
         "urban decay"
-      ]
+      ],
+      "topic": "daily-life",
+      "country": "United States"
     },
     {
       "id": "pool-it-74",
@@ -266,7 +292,9 @@
         "fuel shortage",
         "carpool appeal",
         "roadside highway sign"
-      ]
+      ],
+      "topic": "daily-life",
+      "country": "United States"
     },
     {
       "id": "voyager-launch",
@@ -285,7 +313,9 @@
         "night launch",
         "an outer-planets mission",
         "Titan-class rocket"
-      ]
+      ],
+      "topic": "space",
+      "country": "United States"
     },
     {
       "id": "st-helens",
@@ -304,7 +334,9 @@
         "volcanic ash column",
         "Pacific Northwest",
         "aerial survey"
-      ]
+      ],
+      "topic": "disaster",
+      "country": "United States"
     },
     {
       "id": "sts-1",
@@ -323,7 +355,9 @@
         "a reusable orbiter's first ride",
         "white external tank",
         "Florida pad"
-      ]
+      ],
+      "topic": "space",
+      "country": "United States"
     },
     {
       "id": "sally-ride",
@@ -342,7 +376,9 @@
         "shuttle flight deck",
         "headset and CRT screens",
         "a barrier broken"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     },
     {
       "id": "olympics-84",
@@ -361,7 +397,9 @@
         "opening-ceremony card stunt",
         "a Californian coliseum",
         "a boycotted games"
-      ]
+      ],
+      "topic": "sport",
+      "country": "United States"
     },
     {
       "id": "challenger",
@@ -380,7 +418,9 @@
         "a freezing launch morning",
         "forked smoke plume",
         "schoolchildren watching live"
-      ]
+      ],
+      "topic": "disaster",
+      "country": "United States"
     },
     {
       "id": "reagan-wall",
@@ -399,7 +439,9 @@
         "Brandenburg Gate",
         "a presidential podium",
         "a wall still standing"
-      ]
+      ],
+      "topic": "politics",
+      "country": "Germany"
     },
     {
       "id": "kuwait-fires",
@@ -418,7 +460,9 @@
         "burning oil wells",
         "carrier aircraft",
         "desert war aftermath"
-      ]
+      ],
+      "topic": "conflict",
+      "country": "Kuwait"
     },
     {
       "id": "unity-sts88",
@@ -437,7 +481,9 @@
         "the first station modules mated",
         "open payload bay",
         "international assembly begins"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     },
     {
       "id": "spaceshipone",
@@ -456,7 +502,9 @@
         "privately funded spaceflight",
         "Mojave airfield",
         "a prize competition"
-      ]
+      ],
+      "topic": "technology",
+      "country": "United States"
     },
     {
       "id": "katrina",
@@ -475,7 +523,9 @@
         "a flooded American city",
         "rooftop waterlines",
         "Gulf hurricane"
-      ]
+      ],
+      "topic": "disaster",
+      "country": "United States"
     },
     {
       "id": "inauguration-09",
@@ -494,7 +544,9 @@
         "a vast winter crowd",
         "jumbotrons on the Mall",
         "a historic first"
-      ]
+      ],
+      "topic": "politics",
+      "country": "United States"
     },
     {
       "id": "deepwater",
@@ -513,7 +565,9 @@
         "offshore rig ablaze",
         "fireboats",
         "Gulf of Mexico"
-      ]
+      ],
+      "topic": "disaster",
+      "country": "United States"
     },
     {
       "id": "occupy",
@@ -532,7 +586,9 @@
         "downtown protest encampment",
         "handmade cardboard signs",
         "smartphones in hand"
-      ]
+      ],
+      "topic": "protest",
+      "country": "United States"
     },
     {
       "id": "london-2012",
@@ -551,7 +607,9 @@
         "an Olympic opening ceremony",
         "forged rings",
         "industrial-revolution staging"
-      ]
+      ],
+      "topic": "sport",
+      "country": "United Kingdom"
     },
     {
       "id": "pluto",
@@ -570,7 +628,9 @@
         "a dwarf planet close up",
         "humanity's first flyby",
         "a heart-shaped plain"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     },
     {
       "id": "ruth-1920",
@@ -589,7 +649,9 @@
         "baseball",
         "wool flannel uniform",
         "packed wooden grandstand"
-      ]
+      ],
+      "topic": "sport",
+      "country": "United States"
     },
     {
       "id": "jaws-of-death",
@@ -608,7 +670,9 @@
         "landing-craft ramp",
         "invasion beach",
         "steel helmets"
-      ]
+      ],
+      "topic": "conflict",
+      "country": "France"
     },
     {
       "id": "vj-kiss",
@@ -627,7 +691,9 @@
         "sailor's uniform",
         "spontaneous street celebration",
         "the end of a war"
-      ]
+      ],
+      "topic": "society",
+      "country": "United States"
     },
     {
       "id": "pershing-seoul",
@@ -646,7 +712,9 @@
         "armour in a ruined capital",
         "UN intervention",
         "the first hot war of the Cold War"
-      ]
+      ],
+      "topic": "conflict",
+      "country": "South Korea"
     },
     {
       "id": "space-needle-62",
@@ -665,7 +733,9 @@
         "a world's fair",
         "futurist tower",
         "monorail optimism"
-      ]
+      ],
+      "topic": "culture",
+      "country": "United States"
     },
     {
       "id": "uh1-vietnam",
@@ -684,7 +754,9 @@
         "troop-carrying helicopters",
         "Southeast Asia",
         "olive drab"
-      ]
+      ],
+      "topic": "conflict",
+      "country": "Vietnam"
     },
     {
       "id": "atlantis-mir",
@@ -703,7 +775,9 @@
         "a shuttle docked to a Russian station",
         "post-Cold-War cooperation",
         "solar arrays"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     },
     {
       "id": "womens-march-17",
@@ -722,7 +796,9 @@
         "pink knitted hats",
         "a global day of protest",
         "the day after an inauguration"
-      ]
+      ],
+      "topic": "protest",
+      "country": "United States"
     },
     {
       "id": "falcon-heavy",
@@ -741,7 +817,9 @@
         "twin boosters landing in formation",
         "reusable rockets",
         "a car as payload"
-      ]
+      ],
+      "topic": "technology",
+      "country": "United States"
     },
     {
       "id": "times-square-20",
@@ -760,7 +838,9 @@
         "an empty crossroads at midday",
         "lockdown",
         "billboards playing to nobody"
-      ]
+      ],
+      "topic": "daily-life",
+      "country": "United States"
     },
     {
       "id": "perseverance-21",
@@ -779,7 +859,9 @@
         "a rover selfie",
         "a tiny helicopter",
         "Jezero crater"
-      ]
+      ],
+      "topic": "space",
+      "country": "Space"
     }
   ],
   "schedule": {
