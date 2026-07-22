@@ -41,7 +41,7 @@ REJECTED = ROOT / "tools" / "rejected.json"
 
 API = "https://commons.wikimedia.org/w/api.php"
 USER_AGENT = (
-    "YearglassHarvester/1.0 (daily photo puzzle; curation candidate search; "
+    "YearshotHarvester/1.0 (daily photo puzzle; curation candidate search; "
     "contact via repository issues)"
 )
 

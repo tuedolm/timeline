@@ -4,10 +4,10 @@
   // ---------- Config ----------
 
   const CONFIG = {
-    name: "Yearglass",         // game name; single place to change on rename
+    name: "Yearshot",         // game name; single place to change on rename
     puzzlePath: "puzzles/",    // where daily blobs live (static dir or CDN)
-    shareUrl: "https://tuedolm.github.io/yearglass/", // appended to shared results
-    analyticsEndpoint: "https://yearglass-analytics.tuedolm.workers.dev/", // anonymous score events; GET /stats for aggregates
+    shareUrl: "https://tuedolm.github.io/yearshot/", // appended to shared results
+    analyticsEndpoint: "https://yearshot-analytics.tuedolm.workers.dev/", // anonymous score events; GET /stats for aggregates
   };
 
   const MIN_YEAR = 1826;
@@ -518,7 +518,7 @@
     ctx.font = `700 ${L.wm}px ${SERIF}`;
     ctx.letterSpacing = `${L.wmLs}px`;
     // letterSpacing adds a trailing gap, so nudge right by half to re-centre.
-    ctx.fillText("YEARGLASS", cx + L.wmLs / 2, cy + L.yWm);
+    ctx.fillText("YEARSHOT", cx + L.wmLs / 2, cy + L.yWm);
     ctx.letterSpacing = "0px";
 
     ctx.fillStyle = "#9a97a0";
@@ -577,7 +577,7 @@
     const canvas = renderShareCard(format);
     const blob = await new Promise((res) => canvas.toBlob(res, "image/png"));
     if (!blob) return;
-    const name = `yearglass-${String(puzzle.number).padStart(3, "0")}-${format}.png`;
+    const name = `yearshot-${String(puzzle.number).padStart(3, "0")}-${format}.png`;
     const file = new File([blob], name, { type: "image/png" });
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {

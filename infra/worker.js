@@ -1,5 +1,5 @@
 /**
- * Yearglass analytics collector — Cloudflare Worker + D1.
+ * Yearshot analytics collector — Cloudflare Worker + D1.
  *
  * Receives the tiny JSON events the client's track() sends and stores them in
  * a D1 database. GET /stats returns per-puzzle aggregates as JSON — the score
@@ -16,8 +16,8 @@
  *   {e:"share",    d:"2026-07-21", n:1}
  *
  * Setup (one-time):
- *   npx wrangler d1 create yearglass-analytics   # id goes in wrangler.toml
- *   npx wrangler d1 execute yearglass-analytics --remote --command \
+ *   npx wrangler d1 create yearshot-analytics   # id goes in wrangler.toml
+ *   npx wrangler d1 execute yearshot-analytics --remote --command \
  *     "CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, \
  *      e TEXT, d TEXT, n INTEGER, r INTEGER, err INTEGER, pts INTEGER, \
  *      hint INTEGER, ts INTEGER)"

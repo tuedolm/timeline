@@ -1,6 +1,6 @@
 {
-  "name": "Yearglass — the daily photo game",
-  "short_name": "Yearglass",
+  "name": "Yearshot — the daily photo game",
+  "short_name": "Yearshot",
   "description": "Five photographs. Guess the year each was taken. A new puzzle every day.",
   "start_url": ".",
   "display": "standalone",

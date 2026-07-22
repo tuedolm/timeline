@@ -1,7 +1,11 @@
-name = "yearglass-analytics"
+name = "yearshot-analytics"
 main = "worker.js"
 compatibility_date = "2026-07-01"
 
+# NOTE: database_name intentionally still reads "yearglass-analytics". It is the
+# real name of the existing D1 database and holds all collected analytics;
+# renaming it here would point the worker at a database that does not exist and
+# silently lose the data. The name is internal and never shown to anyone.
 [[d1_databases]]
 binding = "DB"
 database_name = "yearglass-analytics"

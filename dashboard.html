@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Yearglass — Traffic &amp; Engagement</title>
+<title>Yearshot — Traffic &amp; Engagement</title>
 <meta name="robots" content="noindex">
 <style>
   :root {
@@ -108,7 +108,7 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="brand">YEAR<span>GLASS</span> · metrics</div>
+    <div class="brand">YEAR<span>SHOT</span> · metrics</div>
     <div class="updated" id="updated">—</div>
   </header>
   <p class="subtitle">Anonymous traffic &amp; engagement, updated live from the game's analytics endpoint.</p>
@@ -140,7 +140,7 @@
 
 <script>
 "use strict";
-const ENDPOINT = "https://yearglass-analytics.tuedolm.workers.dev";
+const ENDPOINT = "https://yearshot-analytics.tuedolm.workers.dev";
 const $ = (s) => document.querySelector(s);
 const fmt = (n) => Number(n || 0).toLocaleString("en-US");
 const pct = (n) => (n * 100).toFixed(n >= 0.1 ? 0 : 1) + "%";
