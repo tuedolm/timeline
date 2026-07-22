@@ -1,6 +1,6 @@
 # Yearshot — Curation PRD
 
-**Status:** Draft for agreement before any tooling is rebuilt
+**Status:** Agreed and built — `tools/curate.html` implements this
 **Last updated:** July 22, 2026
 
 ---
@@ -50,10 +50,13 @@ Every image must clear all five bars. These are not preferences.
 5. **A story worth two sentences.** Something a player did not know and will
    repeat. "The pilot had never flown at night before." Not "this is a bridge."
 
-### Never
-Atrocity or graphic death — ghettos, camps, executions, massacres. Weighty
-history is welcome (D-Day and Hindenburg are already in the library); asking
-someone to guess the year of a massacre for points is not.
+### War is in. Gore is out.
+The bad side of history belongs here — war, invasions, disasters, protest and
+repression. That is the history worth learning, and the playtesters said the
+learning was the best part. The line is drawn at the **image**, not the
+subject: battles, occupations and aftermath pass; bodies, executions, torture
+and atrocity imagery do not. A scoring screen should never sit beneath a
+photograph of victims.
 
 ---
 

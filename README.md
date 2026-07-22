@@ -31,87 +31,35 @@ The one failure that takes the game down for everyone at once is running out of
 puzzles, and it happens silently. `.github/workflows/bank-check.yml` runs daily
 and opens a GitHub issue when fewer than 14 days remain.
 
-The refill loop — the filtering is automated, the taste is not:
+The refill loop:
 
 ```sh
-python3 tools/harvest.py --years 1975-2015 --per-year 6   # 1. find candidates
-# 2. open tools/curate.html → "Load harvest queue" → Use / Reject each
-#    then Export images JSON and merge into content/library.json
-python3 tools/schedule_next.py                            # 3. deal into days
+# 1. open tools/curate.html, search an event, review, add
+#    (serve locally: python3 -m http.server 8471)
+python3 tools/schedule_next.py            # 2. deal into days, easy -> hard
 python3 tools/generate_puzzles.py && python3 tools/fetch_images.py
-git add -A && git commit && git push                      # 4. ship
-python3 tools/check_bank.py                               # anytime: days left
+git add -A && git commit && git push      # 3. ship
+python3 tools/check_bank.py               # anytime: days left
 ```
 
-`harvest.py` auto-rejects anything that isn't freely licensed, is under 1200px,
-lacks exact-year evidence ("circa" is out), is already in the library, or was
-previously rejected. What survives is a review queue — you still decide whether
-each photo makes a *good puzzle*. `schedule_next.py` deals images round-robin by
-difficulty so every day gets its own easy → hard curve.
+### Curation starts from an event, not an image
 
-Two presets target the material that actually makes good rounds:
+The rules live in [docs/curation-prd.md](docs/curation-prd.md); the tool
+enforces them. Searching Wikipedia for an event returns the photograph, the
+year and the story in one fetch — which is the whole point, because an earlier
+sweep-based harvester could find legally-clean pixels but never assemble those
+three things together.
 
-```sh
-python3 tools/harvest.py --preset outdoor   # street scenes, high streets, parades, seafronts
-python3 tools/harvest.py --preset history   # non-US documentary archives (Anefo, Bundesarchiv, Deutsche Fotothek)
-```
+The tool refuses to add anything that fails the bar: non-free licence, under
+1200px, an approximate date, or not a photograph (articles lead with flags,
+maps and crests as often as photographs). It proposes a year only when two
+independent sources agree, and otherwise makes you set it — a wrong year is
+scored against real players and is the one error the game cannot survive.
 
-`outdoor` is deliberately outdoor-only. A street gives a player far more to
-reason from — signage, vehicles, shopfronts, clothing — than a living room
-does, so indoor categories were removed. `history` targets press and state
-photography, which is where documented background stories live, and is
-non-US on purpose. `--depth` (default 1) descends into subcategories, because
-several of the richest archives hold no files directly.
-
-### Datable, not famous
-
-The harvester also drops **undatable subjects** — wildlife, flora, landscapes,
-astronomy, micrographs. A cheetah in 1996 is identical to a cheetah in 2016:
-the player can only guess, and the reveal has nothing to teach.
-
-This is a filter on *datability*, not on fame, and the difference matters. The
-photos with the biggest stories (Titanic, the Moon landing) are usually the
-easiest to date, so a library selected for famous events drifts straight back
-to being too easy. An anonymous 1989 kitchen has no story in the news sense and
-is superb material: the appliances, worktops and television date it to within a
-few years, and the reveal gets to explain exactly that.
-
-### Never guess a year
-
-A wrong year is scored against real players and is the one error the game
-cannot survive, so the harvester refuses to guess. A photo's year is only
-assigned when two independent sources agree (filename, description, metadata
-date); otherwise the candidate arrives with the year **blank** and marked
-"you must set it" in the review card. Anything hedged with *circa* or
-*approx* is dropped outright, since it can never yield an honest answer.
-
-This exists because a real harvest offered a Sarajevo street scene from the
-1930s carrying the year **2022** — its date field was the scanner's timestamp,
-and its description said "ca. 1933". Date fields with a clock time are now
-treated as digitisation timestamps rather than evidence.
-
-### Also dropped automatically
-
-- **Atrocity and graphic death** — ghettos, camps, executions, Nazi subjects.
-  Weighty history is fine (the library holds D-Day and Hindenburg); asking
-  someone to guess the year of a massacre is not.
-- **Non-photographs** — paintings, engravings, maps and manuscripts, which
-  archives hold alongside photographs and which carry no photographic era
-  cues. Terms include German, since the best non-US archives are German.
-- **No description *and* no confirmable year** — fails both tests at once:
-  nothing to build a story from, nothing to date it by.
-
-Two guards keep quality honest:
-
-- `generate_puzzles.py` **requires** a `story` for every image, so nothing
-  without something worth saying can ship, undatable or not.
-- The undatable filter is tuned conservatively and **logs every drop**, because
-  a bad candidate you see gets rejected by you, whereas a good one wrongly
-  filtered disappears silently. Terms that double as human-made things
-  (`eagle`, `falcon`, `beetle`, `jaguar`, `sunset`) are deliberately excluded —
-  each of them binned real material in testing. A photo with clear human
-  subjects is never dropped for a stray animal word in its categories.
-  Use `--allow-timeless` to bypass the filter entirely.
+**War and difficult history belong here** — that is the history worth learning,
+and playtesters said so. The line is drawn at *graphic imagery*, not dark
+subject matter: battles, protests, disasters and their aftermath all pass;
+bodies, executions and atrocity do not.
 
 ## Daily cycle
 

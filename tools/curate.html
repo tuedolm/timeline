@@ -3,384 +3,463 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Yearshot curation tool</title>
+<title>Yearshot curation</title>
 <style>
-:root { --bg:#101014; --surface:#1a1a20; --s2:#24242c; --text:#f2f0eb; --dim:#9a97a0; --accent:#e8a33d; --green:#4caf6e; --red:#e05252; }
-* { box-sizing:border-box; margin:0; padding:0; }
-body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; padding:24px; }
-h1 { font-family:Georgia,serif; letter-spacing:2px; font-size:22px; margin-bottom:4px; }
-.sub { color:var(--dim); font-size:13px; margin-bottom:20px; }
-.grid { display:grid; grid-template-columns: 1fr 1fr; gap:24px; max-width:1200px; }
-.panel { background:var(--surface); border-radius:12px; padding:20px; }
-label { display:block; font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--dim); margin:12px 0 4px; }
-input, textarea, select { width:100%; background:var(--s2); border:1px solid #34343e; color:var(--text); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit; }
-textarea { resize:vertical; min-height:56px; }
-button { background:var(--accent); color:var(--bg); border:none; border-radius:8px; padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; margin-top:14px; }
-button.secondary { background:var(--s2); color:var(--text); border:1px solid #34343e; }
-button:disabled { opacity:.4; cursor:default; }
-#preview { width:100%; max-height:260px; object-fit:contain; background:var(--s2); border-radius:8px; margin-top:12px; display:none; }
-#meta { font-size:12px; color:var(--dim); margin-top:8px; white-space:pre-wrap; }
-#meta .ok { color:var(--green); } #meta .bad { color:var(--red); }
-.lib-row { display:grid; grid-template-columns:56px 44px 1fr auto auto; gap:10px; align-items:center; background:var(--s2); border-radius:8px; padding:8px 10px; margin-top:8px; font-size:13px; }
-.lib-row img { width:56px; height:38px; object-fit:cover; border-radius:4px; }
-.lib-row .year { font-weight:700; font-variant-numeric:tabular-nums; }
-.lib-row .del { background:none; border:none; color:var(--red); cursor:pointer; font-size:16px; margin:0; padding:4px; }
-.lib-row .diff { color:var(--dim); }
-.toolbar { display:flex; gap:10px; flex-wrap:wrap; }
-#count { color:var(--dim); font-size:13px; margin-top:10px; }
-#queue-count { color:var(--dim); font-size:13px; align-self:center; }
-.hint { color:var(--dim); font-size:12px; margin:10px 0 4px; line-height:1.5; }
-.hint code { color:var(--text); background:var(--s2); padding:1px 5px; border-radius:4px; }
-#queue { display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:16px; margin-top:12px; }
-.cand { background:var(--s2); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
-.cand img { width:100%; height:250px; object-fit:cover; background:#000; cursor:zoom-in; display:block; }
-.cand-body { padding:10px 12px; font-size:12px; color:var(--dim); flex:1; }
-.cand-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
-.year-badge { color:var(--text); font-size:16px; font-weight:700; }
-.year-badge.unknown { color:var(--accent); }
-.pill { font-size:10px; text-transform:uppercase; letter-spacing:.5px; padding:2px 7px; border-radius:999px; background:#34343e; color:var(--dim); }
-.pill.warn { background:rgba(232,163,61,.16); color:var(--accent); }
-.pill.place { background:rgba(57,135,229,.16); color:#7db3f0; }
-.cand-body .desc { display:block; margin-top:6px; line-height:1.5; max-height:74px; overflow:auto; color:#b9b6bf; }
-.cand-body .src { display:block; margin-top:6px; font-size:11px; }
-.cand-body .src a { color:var(--dim); }
-.cand-actions { display:flex; gap:8px; padding:0 12px 12px; }
-.cand-actions button { margin-top:0; flex:1; padding:9px 0; font-size:13px; }
-.cand-actions .rej { background:var(--s2); border:1px solid #34343e; color:var(--red); }
-#lightbox { position:fixed; inset:0; background:rgba(0,0,0,.9); display:none; align-items:center;
-  justify-content:center; z-index:50; cursor:zoom-out; padding:24px; flex-direction:column; gap:12px; }
-#lightbox.open { display:flex; }
-#lightbox img { max-width:100%; max-height:85vh; object-fit:contain; border-radius:6px; }
-#lightbox .cap { color:var(--dim); font-size:12px; text-align:center; max-width:800px; }
+:root{--bg:#101014;--surface:#1a1a20;--s2:#24242c;--line:#34343e;--text:#f2f0eb;
+  --dim:#9a97a0;--mute:#6b6872;--accent:#e8a33d;--green:#4caf6e;--red:#e05252;--blue:#3987e5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 20px 80px}
+h1{font-family:Georgia,serif;letter-spacing:3px;font-size:22px}
+.sub{color:var(--dim);font-size:13px;margin:4px 0 22px;line-height:1.6}
+.sub code{background:var(--s2);padding:1px 5px;border-radius:4px;font-size:12px}
+
+.searchbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+input,textarea,select{background:var(--s2);border:1px solid var(--line);color:var(--text);
+  border-radius:8px;padding:10px 12px;font:inherit;font-size:14px;width:100%}
+textarea{resize:vertical;min-height:70px;line-height:1.5}
+button{background:var(--accent);color:var(--bg);border:none;border-radius:8px;
+  padding:10px 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+button.sec{background:var(--s2);color:var(--text);border:1px solid var(--line)}
+button.rej{background:transparent;color:var(--red);border:1px solid var(--line)}
+button:disabled{opacity:.4;cursor:default}
+.modes{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.mode{font-size:12px;padding:6px 12px;border-radius:999px;background:var(--s2);
+  border:1px solid var(--line);color:var(--dim);cursor:pointer}
+.mode.on{background:rgba(232,163,61,.15);border-color:var(--accent);color:var(--accent)}
+
+.status{font-size:13px;color:var(--dim);min-height:20px;margin-bottom:10px}
+.status.err{color:var(--red)}
+
+.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.hit{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.hit:hover{border-color:var(--accent)}
+.hit img{width:100%;height:120px;object-fit:cover;background:#000}
+.hit .t{padding:8px 10px;font-size:13px;font-weight:600}
+.hit .d{padding:0 10px 9px;font-size:11px;color:var(--mute);line-height:1.4;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+.editor{display:grid;grid-template-columns:1.1fr 1fr;gap:22px;margin-top:22px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.editor img{width:100%;border-radius:8px;background:#000;cursor:zoom-in;display:block}
+label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;
+  color:var(--dim);margin:14px 0 5px}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.checks{font-size:12px;line-height:1.9;margin-top:12px}
+.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--accent)}
+.src{font-size:11px;color:var(--mute);margin-top:8px}
+.src a{color:var(--dim)}
+.editor-actions{display:flex;gap:10px;margin-top:18px}
+.blocked{background:rgba(224,82,82,.1);border:1px solid var(--red);border-radius:8px;
+  padding:10px 12px;font-size:12px;color:var(--red);margin-top:12px;line-height:1.5}
+
+.libbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:26px 0 10px}
+#count{font-size:13px;color:var(--dim)}
+.lib{display:flex;flex-direction:column;gap:7px}
+.lrow{display:grid;grid-template-columns:52px 46px 1fr auto auto;gap:10px;align-items:center;
+  background:var(--s2);border-radius:8px;padding:7px 10px;font-size:13px}
+.lrow img{width:52px;height:36px;object-fit:cover;border-radius:4px}
+.lrow .y{font-weight:700}
+.lrow .x{background:none;border:none;color:var(--red);cursor:pointer;padding:4px;font-size:15px}
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;
+  justify-content:center;z-index:50;cursor:zoom-out;padding:24px}
+#lightbox.on{display:flex}
+#lightbox img{max-width:100%;max-height:92vh;object-fit:contain;border-radius:6px}
+@media(max-width:860px){.editor{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<h1>CURATION</h1>
-<p class="sub">Paste a Wikimedia Commons file name or URL → fetch → verify → add. Export merges into <code>content/library.json</code> by hand (or replace the images array wholesale). Work is saved in this browser's localStorage.</p>
+<div class="wrap">
+  <h1>YEARSHOT CURATION</h1>
+  <p class="sub">
+    Start from an <strong>event</strong>, not an image. Searching Wikipedia gives the
+    photograph, the year and the story in one go. Featured Pictures are pre-vetted by
+    humans for quality. Everything is checked against the bar in
+    <code>docs/curation-prd.md</code> before you can add it.
+  </p>
 
-<div class="grid">
-  <div class="panel">
-    <label for="file-input">Commons file name or URL</label>
-    <input id="file-input" placeholder='e.g. File:Elvis-nixon.jpg or a commons.wikimedia.org link'>
-    <button id="fetch-btn">Fetch metadata</button>
-    <img id="preview" alt="preview">
-    <div id="meta"></div>
-
-    <label for="id-input">id (kebab-case)</label>
-    <input id="id-input" placeholder="e.g. elvis-nixon">
-    <label for="year-input">Exact year (non-negotiable — no circa)</label>
-    <input id="year-input" type="number" min="1826" max="2100">
-    <label for="diff-input">Difficulty</label>
-    <select id="diff-input">
-      <option value="1">1 — gimme (iconic, instantly datable)</option>
-      <option value="2">2 — easy</option>
-      <option value="3" selected>3 — medium</option>
-      <option value="4">4 — hard (era-reading required)</option>
-      <option value="5">5 — devious (feels like the wrong decade)</option>
-    </select>
-    <label for="blurb-input">Reveal blurb (one line)</label>
-    <textarea id="blurb-input"></textarea>
-    <label for="credit-input">Credit line (shown on reveal)</label>
-    <input id="credit-input">
-    <button id="add-btn" disabled>Add to library</button>
+  <div class="modes">
+    <div class="mode on" data-mode="event">Search events</div>
+    <div class="mode" data-mode="featured">Featured Pictures by year</div>
+    <div class="mode" data-mode="file">Commons file</div>
   </div>
 
-  <div class="panel">
-    <div class="toolbar">
-      <button id="export-btn" class="secondary">Export images JSON</button>
-      <button id="import-btn" class="secondary">Import library.json</button>
-      <input type="file" id="import-file" accept=".json" style="display:none">
-      <button id="clear-btn" class="secondary">Clear all</button>
+  <div class="searchbar">
+    <input id="q" placeholder="e.g. Hindenburg disaster · Prague Spring · Concorde first flight">
+    <button id="go">Search</button>
+  </div>
+  <div class="status" id="status"></div>
+  <div class="results" id="results"></div>
+
+  <div class="editor" id="editor" hidden>
+    <div>
+      <img id="preview" alt="candidate">
+      <div class="checks" id="checks"></div>
+      <div class="src" id="src"></div>
+      <div class="blocked" id="blocked" hidden></div>
     </div>
-    <div id="count"></div>
-    <div id="lib-list"></div>
+    <div>
+      <div class="row">
+        <div>
+          <label for="year">Exact year — no circa</label>
+          <input id="year" type="number" min="1826" max="2100">
+        </div>
+        <div>
+          <label for="tier">Difficulty tier</label>
+          <select id="tier">
+            <option value="1">1 — gift (the year is common knowledge)</option>
+            <option value="2">2 — recall (famous, year takes effort)</option>
+            <option value="3" selected>3 — reason (famous subject, ambiguous year)</option>
+            <option value="4">4 — read the era</option>
+            <option value="5">5 — devious (feels like another decade)</option>
+          </select>
+        </div>
+      </div>
+      <label for="id">id (kebab-case)</label>
+      <input id="id">
+      <label for="blurb">Reveal headline — one line</label>
+      <textarea id="blurb" style="min-height:52px"></textarea>
+      <label for="story">Story — two sentences, something they'll repeat</label>
+      <textarea id="story"></textarea>
+      <label for="keywords">Hint keywords — three context clues, never name the event</label>
+      <input id="keywords" placeholder="a freezing morning · forked smoke plume · watched live">
+      <label for="credit">Credit line</label>
+      <input id="credit">
+      <div class="editor-actions">
+        <button id="add">Add to library</button>
+        <button id="skip" class="rej">Skip</button>
+      </div>
+    </div>
   </div>
 
-  <div class="panel" style="grid-column: 1 / -1">
-    <div class="toolbar">
-      <button id="load-queue" class="secondary">Load harvest queue</button>
-      <button id="export-rejected" class="secondary">Export rejected list</button>
-      <span id="queue-count"></span>
-    </div>
-    <p class="hint">Run <code>python3 tools/harvest.py --years 1975-2015 --per-year 6</code> first.
-      These already passed the licence, resolution, exact-year and datability filters —
-      your only job is to judge whether each makes a <em>good puzzle</em>. Ask two things:
-      <em>could a careful looker reason the year</em> from clothes, cars, signage or tech?
-      And <em>is there something worth saying</em> in the reveal? Reject anything whose
-      medium gives the year away, and remember an anonymous everyday scene usually beats
-      a famous one.</p>
-    <div id="queue"></div>
+  <div class="libbar">
+    <button id="export" class="sec">Export images JSON</button>
+    <button id="import" class="sec">Import library.json</button>
+    <input type="file" id="importfile" accept=".json" hidden>
+    <button id="clear" class="sec">Clear</button>
+    <span id="count"></span>
   </div>
+  <div class="lib" id="lib"></div>
 </div>
-<div id="lightbox"><img alt="full size preview"><div class="cap"></div></div>
+<div id="lightbox"><img alt="full size"></div>
 
 <script>
 "use strict";
-const KEY = "tl.curation";
+const $ = (id) => document.getElementById(id);
+const KEY = "ys.curation";
 let lib = [];
 try { lib = JSON.parse(localStorage.getItem(KEY)) || []; } catch { lib = []; }
-let fetched = null; // metadata of the last fetched file
+let mode = "event";
+let current = null;
 
-const $ = (id) => document.getElementById(id);
+/* ---------- Content guardrails ----------
+   War and difficult history belong in this game — that is the history worth
+   learning. The line is drawn at graphic imagery, not at dark subject matter,
+   so battles, protests, disasters and their aftermath all pass while gore does
+   not. A short list of atrocity contexts stays blocked because their imagery is
+   overwhelmingly of victims, which no scoring screen should sit beneath. */
+const GRAPHIC = new RegExp("\\b(" + [
+  "corpse","corpses","dead body","dead bodies","cadaver","mass grave","skeletal remains",
+  "execution","executed","beheading","decapitat","hanging of","lynching","lynched",
+  "firing squad","mutilat","dismember","disembowel","torture","tortured",
+  "gore","gory","bloodied","blood-soaked","severed",
+  "concentration camp","extermination camp","gas chamber","auschwitz","dachau",
+  "buchenwald","treblinka","holocaust victim","genocide","massacre of","emaciated"
+].join("|") + ")\\b", "i");
 
-function thumbUrl(file, w) {
-  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=" + (w || 300);
+const FREE = /public domain|^cc0|^cc by(-sa)?[ -]?\d/i;
+
+/* Articles lead with flags, maps, crests and paintings as often as photographs,
+   and none of those carry photographic era cues. Checked against filename and
+   categories rather than the article text, which legitimately mentions maps. */
+const NOT_PHOTO = new RegExp("\\b(" + [
+  "flag of","coat of arms","emblem","crest","seal of","logo",
+  "map of","maps of","atlas","cartograph","diagram","chart of",
+  "painting","portrait painting","engraving","lithograph","etching","woodcut",
+  "drawing","illustration","manuscript","poster","stamp","banknote","medal",
+  "gemälde","zeichnung","stich","karte"
+].join("|") + ")\\b", "i");
+
+const api = async (url) => (await fetch(url)).json();
+const strip = (s) => (s || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+const setStatus = (t, err) => { $("status").textContent = t; $("status").className = "status" + (err ? " err" : ""); };
+
+/* ---------- Search modes ---------- */
+
+async function searchEvents(q) {
+  const url = "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*"
+    + "&generator=search&gsrlimit=18&gsrsearch=" + encodeURIComponent(q)
+    + "&prop=pageimages|extracts&exintro=1&explaintext=1&exsentences=2&piprop=thumbnail&pithumbsize=400";
+  const j = await api(url);
+  const pages = Object.values(j.query?.pages || {});
+  pages.sort((a, b) => (a.index || 99) - (b.index || 99));
+  return pages.map((p) => ({
+    kind: "event", title: p.title,
+    thumb: p.thumbnail?.source || "",
+    desc: strip(p.extract).slice(0, 180),
+  }));
 }
 
-function parseFileName(raw) {
-  raw = raw.trim();
-  try {
-    if (raw.includes("commons.wikimedia.org")) {
-      const u = new URL(raw);
-      const path = decodeURIComponent(u.pathname);
-      const m = path.match(/(?:File:|FilePath\/)(.+)$/);
-      if (m) return m[1];
-    }
-  } catch { /* not a URL, treat as a name */ }
-  return raw.replace(/^File:/, "");
-}
-
-$("fetch-btn").addEventListener("click", async () => {
-  const file = parseFileName($("file-input").value);
-  if (!file) return;
-  $("meta").textContent = "Fetching…";
+async function searchFeatured(year) {
+  // Human-vetted for quality; the PRD's quality bar is already enforced here.
+  const cat = /^\d{4}$/.test(year.trim())
+    ? `Featured pictures taken in ${year.trim()}` : `Featured pictures of ${year.trim()}`;
   const url = "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*"
-    + "&prop=imageinfo&iiprop=extmetadata%7Csize"
-    + "&iiextmetadatafilter=LicenseShortName%7CArtist%7CDateTimeOriginal%7CImageDescription"
-    + "&titles=" + encodeURIComponent("File:" + file);
+    + "&generator=categorymembers&gcmtype=file&gcmlimit=30&gcmtitle=" + encodeURIComponent("Category:" + cat)
+    + "&prop=imageinfo&iiprop=url&iiurlwidth=400";
+  const j = await api(url);
+  const pages = Object.values(j.query?.pages || {});
+  return pages.map((p) => ({
+    kind: "file", title: p.title.replace("File:", ""),
+    thumb: p.imageinfo?.[0]?.thumburl || "", desc: "",
+  }));
+}
+
+$("go").addEventListener("click", run);
+$("q").addEventListener("keydown", (e) => { if (e.key === "Enter") run(); });
+
+document.querySelectorAll(".mode").forEach((m) => m.addEventListener("click", () => {
+  document.querySelectorAll(".mode").forEach((x) => x.classList.remove("on"));
+  m.classList.add("on");
+  mode = m.dataset.mode;
+  $("q").placeholder = mode === "event"
+    ? "e.g. Hindenburg disaster · Prague Spring · Concorde first flight"
+    : mode === "featured" ? "a year, e.g. 1985 — or a topic, e.g. Berlin"
+    : "a Commons file name or URL";
+  $("results").innerHTML = ""; setStatus("");
+}));
+
+async function run() {
+  const q = $("q").value.trim();
+  if (!q) return;
+  setStatus("Searching…"); $("results").innerHTML = "";
   try {
-    const j = await (await fetch(url)).json();
-    const page = Object.values(j.query.pages)[0];
-    if (page.missing !== undefined) { $("meta").innerHTML = '<span class="bad">File not found on Commons.</span>'; return; }
-    const ii = page.imageinfo[0];
-    const md = ii.extmetadata || {};
-    const strip = (s) => (s || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-    const lic = md.LicenseShortName ? md.LicenseShortName.value : "UNKNOWN";
-    const artist = strip(md.Artist && md.Artist.value);
-    const dateRaw = strip(md.DateTimeOriginal && md.DateTimeOriginal.value);
-    const free = /public domain|^cc0$|^cc by(-sa)? \d/i.test(lic);
-    const bigEnough = ii.width >= 1200;
-    fetched = { file, license: lic, artist, dateRaw, width: ii.width, height: ii.height };
-    $("preview").src = thumbUrl(file, 600);
-    $("preview").style.display = "block";
-    $("meta").innerHTML =
-      `License: <span class="${free ? "ok" : "bad"}">${lic}</span>` +
-      ` · ${ii.width}×${ii.height} <span class="${bigEnough ? "ok" : "bad"}">${bigEnough ? "ok" : "too small"}</span>` +
-      `\nArtist: ${artist || "?"}\nDate field: ${dateRaw || "?"} — verify the year independently before trusting it.`;
-    const yearGuess = (dateRaw.match(/\b(1[89]\d{2}|20\d{2})\b/) || [])[0];
-    if (yearGuess) $("year-input").value = yearGuess;
-    $("id-input").value = file.toLowerCase().replace(/\.[a-z]+$/i, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
-    if (artist) $("credit-input").value = artist + (/public domain/i.test(lic) ? " — public domain" : ` (${lic})`);
-    $("add-btn").disabled = !free || !bigEnough;
-  } catch (e) {
-    $("meta").innerHTML = '<span class="bad">Fetch failed: ' + e.message + "</span>";
-  }
-});
-
-$("add-btn").addEventListener("click", () => {
-  const year = parseInt($("year-input").value, 10);
-  if (!fetched || !year || !$("blurb-input").value.trim() || !$("id-input").value.trim()) {
-    alert("Need id, exact year, and a blurb."); return;
-  }
-  lib.push({
-    id: $("id-input").value.trim(),
-    commonsFile: fetched.file,
-    year,
-    difficulty: parseInt($("diff-input").value, 10),
-    blurb: $("blurb-input").value.trim(),
-    credit: $("credit-input").value.trim(),
-    verified: { license: fetched.license, artist: fetched.artist, dateOriginal: fetched.dateRaw },
-  });
-  save();
-  fetched = null;
-  for (const id of ["file-input", "id-input", "year-input", "blurb-input", "credit-input"]) $(id).value = "";
-  $("preview").style.display = "none";
-  $("meta").textContent = "";
-  $("add-btn").disabled = true;
-});
-
-function save() { localStorage.setItem(KEY, JSON.stringify(lib)); render(); }
-
-function render() {
-  $("count").textContent = lib.length + " image(s) — " + Math.floor(lib.length / 5) + " full day(s) of puzzles";
-  const list = $("lib-list");
-  list.innerHTML = "";
-  for (let i = 0; i < lib.length; i++) {
-    const img = lib[i];
-    const row = document.createElement("div");
-    row.className = "lib-row";
-    const thumb = document.createElement("img");
-    thumb.src = thumbUrl(img.commonsFile, 120);
-    const year = document.createElement("span");
-    year.className = "year";
-    year.textContent = img.year;
-    const desc = document.createElement("span");
-    desc.textContent = img.id;
-    const diff = document.createElement("span");
-    diff.className = "diff";
-    diff.textContent = "d" + img.difficulty;
-    const del = document.createElement("button");
-    del.className = "del";
-    del.textContent = "✕";
-    del.addEventListener("click", () => { lib.splice(i, 1); save(); });
-    row.append(thumb, year, desc, diff, del);
-    list.appendChild(row);
-  }
+    if (mode === "file") { await loadFile(q.replace(/^File:/, "").split("/").pop()); return; }
+    const hits = mode === "event" ? await searchEvents(q) : await searchFeatured(q);
+    if (!hits.length) { setStatus("Nothing found. Try different wording.", true); return; }
+    setStatus(`${hits.length} result(s) — pick one`);
+    renderHits(hits);
+  } catch (e) { setStatus("Search failed: " + e.message, true); }
 }
 
-$("export-btn").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(lib, null, 2)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "curated-images.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-});
-
-$("import-btn").addEventListener("click", () => $("import-file").click());
-$("import-file").addEventListener("change", async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const data = JSON.parse(await file.text());
-  lib = Array.isArray(data) ? data : (data.images || []);
-  save();
-});
-
-$("clear-btn").addEventListener("click", () => {
-  if (confirm("Clear the whole working library?")) { lib = []; save(); }
-});
-
-/* ---------- Harvest review queue ---------- */
-
-const REJ_KEY = "tl.rejected";
-let rejected = [];
-try { rejected = JSON.parse(localStorage.getItem(REJ_KEY)) || []; } catch { rejected = []; }
-let queue = [];
-
-function saveRejected() { localStorage.setItem(REJ_KEY, JSON.stringify(rejected)); }
-
-const lightbox = $("lightbox");
-function openLightbox(c) {
-  lightbox.querySelector("img").src = c.full || c.thumb;
-  lightbox.querySelector(".cap").textContent =
-    `${c.year || "year unknown"}${c.place ? " · " + c.place : ""} — ${c.description || c.commonsFile}`;
-  lightbox.classList.add("open");
-}
-lightbox.addEventListener("click", () => lightbox.classList.remove("open"));
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") lightbox.classList.remove("open");
-});
-
-function renderQueue() {
-  const host = $("queue");
-  const inLib = new Set(lib.map((i) => i.commonsFile));
-  const pending = queue.filter((c) => !rejected.includes(c.commonsFile) && !inLib.has(c.commonsFile));
-  $("queue-count").textContent = pending.length
-    ? `${pending.length} awaiting review`
-    : (queue.length ? "queue clear — harvest more" : "");
-  host.innerHTML = "";
-
-  for (const c of pending) {
+function renderHits(hits) {
+  const host = $("results"); host.innerHTML = "";
+  for (const h of hits) {
     const card = document.createElement("div");
-    card.className = "cand";
-
-    const img = document.createElement("img");
-    img.src = c.thumb;
-    img.loading = "lazy";
-    img.alt = c.commonsFile;
-    img.addEventListener("click", () => openLightbox(c));
-
-    const body = document.createElement("div");
-    body.className = "cand-body";
-
-    const head = document.createElement("div");
-    head.className = "cand-head";
-    const year = document.createElement("span");
-    const confirmed = c.year && c.yearConfidence !== "unconfirmed";
-    year.className = "year-badge" + (confirmed ? "" : " unknown");
-    year.textContent = confirmed ? c.year : "year unknown";
-    head.appendChild(year);
-    if (!confirmed) {
-      const w = document.createElement("span");
-      w.className = "pill warn";
-      w.textContent = "you must set it";
-      head.appendChild(w);
+    card.className = "hit";
+    if (h.thumb) {
+      const im = document.createElement("img");
+      im.src = h.thumb; im.loading = "lazy"; card.appendChild(im);
     }
-    if (c.place) {
-      const p = document.createElement("span");
-      p.className = "pill place";
-      p.textContent = c.place;
-      head.appendChild(p);
-    }
-    const lic = document.createElement("span");
-    lic.className = "pill";
-    lic.textContent = `${c.license} · ${c.width}×${c.height}`;
-    head.appendChild(lic);
-
-    const desc = document.createElement("span");
-    desc.className = "desc";
-    desc.textContent = c.description || "(no description — likely no story to tell)";
-
-    const src = document.createElement("span");
-    src.className = "src";
-    const link = document.createElement("a");
-    link.href = c.commonsPage || "#";
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.textContent = "view on Commons ↗";
-    src.appendChild(link);
-
-    body.append(head, desc, src);
-
-    const actions = document.createElement("div");
-    actions.className = "cand-actions";
-    const use = document.createElement("button");
-    use.textContent = "Use";
-    use.addEventListener("click", () => {
-      $("file-input").value = c.commonsFile;
-      // Only carry over a year two sources agreed on. Otherwise leave it empty
-      // so it must be typed — a guessed year is scored against real players.
-      $("year-input").value = confirmed ? c.year : "";
-      $("fetch-btn").click();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      if (!confirmed) setTimeout(() => $("year-input").focus(), 400);
-    });
-    const rej = document.createElement("button");
-    rej.className = "rej";
-    rej.textContent = "Reject";
-    rej.addEventListener("click", () => {
-      rejected.push(c.commonsFile);
-      saveRejected();
-      renderQueue();
-    });
-    actions.append(use, rej);
-
-    card.append(img, body, actions);
+    const t = document.createElement("div"); t.className = "t"; t.textContent = h.title;
+    const d = document.createElement("div"); d.className = "d"; d.textContent = h.desc;
+    card.append(t, d);
+    card.addEventListener("click", () =>
+      h.kind === "event" ? loadEvent(h.title) : loadFile(h.title));
     host.appendChild(card);
   }
 }
 
-$("load-queue").addEventListener("click", async () => {
-  try {
-    queue = await (await fetch("candidates.json", { cache: "no-cache" })).json();
-    renderQueue();
-  } catch {
-    $("queue-count").textContent = "no candidates.json yet — run tools/harvest.py";
+/* ---------- Loading a candidate ---------- */
+
+async function loadEvent(title) {
+  setStatus("Loading " + title + "…");
+  // The lead image of an event article is usually the defining photograph.
+  const j = await api("https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*"
+    + "&prop=pageimages|extracts&exintro=1&explaintext=1&piprop=original"
+    + "&titles=" + encodeURIComponent(title));
+  const page = Object.values(j.query?.pages || {})[0] || {};
+  const summary = strip(page.extract);
+  const original = page.original?.source || "";
+  if (!original) { setStatus("That article has no lead image.", true); return; }
+  const file = decodeURIComponent(original.split("/").pop());
+  await loadFile(file, { summary, article: title });
+}
+
+async function loadFile(file, ctx = {}) {
+  setStatus("Checking licence and metadata…");
+  const j = await api("https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*"
+    + "&prop=imageinfo|categories&cllimit=100&iiprop=extmetadata|size|mime|url&iiurlwidth=1000"
+    + "&iiextmetadatafilter=LicenseShortName|Artist|DateTimeOriginal|ImageDescription"
+    + "&titles=" + encodeURIComponent("File:" + file));
+  const page = Object.values(j.query?.pages || {})[0] || {};
+  if (page.missing !== undefined || !page.imageinfo) {
+    // Fair-use images live on Wikipedia, not Commons, and can never be used.
+    setStatus("Not on Commons — probably non-free. Skip it.", true); return;
   }
+  const ii = page.imageinfo[0], md = ii.extmetadata || {};
+  const cats = (page.categories || []).map((c) => c.title.replace("Category:", ""));
+  const desc = strip(md.ImageDescription?.value);
+
+  current = {
+    commonsFile: file,
+    license: md.LicenseShortName?.value || "",
+    artist: strip(md.Artist?.value),
+    dateOriginal: strip(md.DateTimeOriginal?.value),
+    description: desc,
+    summary: ctx.summary || desc,
+    article: ctx.article || "",
+    width: ii.width, height: ii.height, mime: ii.mime,
+    preview: ii.thumburl || ii.url,
+    full: ii.url,
+    page: "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(file),
+    categories: cats,
+  };
+  showEditor();
+  setStatus("");
+}
+
+/* ---------- Year: only ever offered, never assumed ---------- */
+
+function yearsIn(t) { return [...new Set((t || "").match(/\b(1[89]\d{2}|20\d{2})\b/g) || [])].map(Number); }
+function approximate(t) { return /\bcirca\b|\bca\.\s*\d{4}|\bapprox|\bbetween\b|\d{4}s\b/i.test(t || ""); }
+function hasClock(t) { return /\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(t || ""); }
+
+function proposeYear(c) {
+  // A date field carrying a clock time is usually when a scanner wrote the
+  // file, not when the photograph was taken.
+  const dateYears = hasClock(c.dateOriginal) ? [] : yearsIn(c.dateOriginal);
+  const nameYears = yearsIn(c.commonsFile);
+  const artYears = yearsIn(c.article + " " + c.summary.slice(0, 200));
+  const agree = (a, b) => a.filter((y) => b.includes(y));
+  for (const pair of [[dateYears, nameYears], [dateYears, artYears], [nameYears, artYears]]) {
+    const m = agree(pair[0], pair[1]);
+    if (m.length === 1) return { year: m[0], why: "two sources agree" };
+  }
+  if (dateYears.length === 1 && !nameYears.length) return { year: dateYears[0], why: "archive date field" };
+  return { year: null, why: "sources disagree — set it yourself" };
+}
+
+function draftStory(c) {
+  // Extractive: the article's own opening, trimmed to two sentences. Raw
+  // material to rewrite, never something to ship unread.
+  const s = (c.summary || "").replace(/\s+/g, " ").trim();
+  const parts = s.match(/[^.!?]+[.!?]+/g) || [];
+  return parts.slice(0, 2).join(" ").trim();
+}
+
+function kebab(s) {
+  return s.toLowerCase().replace(/\.[a-z]+$/, "").replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "").slice(0, 42);
+}
+
+/* ---------- Editor ---------- */
+
+function showEditor() {
+  const c = current;
+  $("editor").hidden = false;
+  $("preview").src = c.preview;
+  $("preview").onclick = () => {
+    $("lightbox").querySelector("img").src = c.full;
+    $("lightbox").classList.add("on");
+  };
+
+  const blob = [c.commonsFile, c.description, c.summary, c.categories.join(" ")].join(" ");
+  const graphic = blob.match(GRAPHIC);
+  const notPhoto = [c.commonsFile, c.categories.join(" ")].join(" ").match(NOT_PHOTO);
+  const free = FREE.test(c.license);
+  const big = c.width >= 1200;
+  const isPhoto = (c.mime || "").startsWith("image/") && !(c.mime || "").includes("svg") && !notPhoto;
+  const approx = approximate(c.dateOriginal) || approximate(c.summary.slice(0, 160));
+
+  const line = (ok, text) => `<div class="${ok ? "ok" : "bad"}">${ok ? "✓" : "✗"} ${text}</div>`;
+  $("checks").innerHTML =
+    line(free, `Licence: ${c.license || "unknown"}`) +
+    line(big, `Resolution: ${c.width}×${c.height}`) +
+    line(isPhoto, notPhoto ? `Not a photograph — looks like a ${notPhoto[0]}` : `Type: ${c.mime}`) +
+    line(!approx, approx ? "Date is approximate — unusable" : "Date is not hedged") +
+    (c.article ? `<div class="ok">✓ Story source: ${c.article}</div>` : `<div class="warn">! No article — you'll write the story cold</div>`);
+
+  $("src").innerHTML = `<a href="${c.page}" target="_blank" rel="noopener">view on Commons ↗</a>`
+    + (c.artist ? ` · ${c.artist.slice(0, 70)}` : "");
+
+  $("blocked").hidden = !graphic;
+  if (graphic) {
+    $("blocked").textContent = `Blocked as graphic ("${graphic[0]}"). War and hard history belong here — `
+      + `imagery of bodies, executions or atrocity does not.`;
+  }
+
+  const p = proposeYear(c);
+  $("year").value = p.year || "";
+  $("id").value = kebab(c.article || c.commonsFile);
+  $("blurb").value = "";
+  $("story").value = draftStory(c);
+  $("keywords").value = "";
+  $("credit").value = c.artist
+    ? c.artist.slice(0, 80) + (/public domain/i.test(c.license) ? " — public domain" : ` (${c.license})`)
+    : c.license;
+
+  const blockAdd = !free || !big || !isPhoto || approx || !!graphic;
+  $("add").disabled = blockAdd;
+  $("add").textContent = blockAdd ? "Fails the bar" : "Add to library";
+  if (!p.year) setStatus("Year needs your call — " + p.why);
+}
+
+$("skip").addEventListener("click", () => { $("editor").hidden = true; current = null; });
+
+$("add").addEventListener("click", () => {
+  const year = parseInt($("year").value, 10);
+  const kw = $("keywords").value.split(/·|,|\|/).map((s) => s.trim()).filter(Boolean);
+  if (!year || !$("id").value.trim() || !$("blurb").value.trim() || !$("story").value.trim()) {
+    alert("Need id, exact year, headline and story."); return;
+  }
+  if (kw.length !== 3) { alert("Need exactly 3 hint keywords, separated by ·"); return; }
+  lib.push({
+    id: $("id").value.trim(),
+    commonsFile: current.commonsFile,
+    year, difficulty: parseInt($("tier").value, 10),
+    blurb: $("blurb").value.trim(),
+    story: $("story").value.trim(),
+    keywords: kw,
+    credit: $("credit").value.trim(),
+    verified: { license: current.license, artist: current.artist, dateOriginal: current.dateOriginal },
+  });
+  save();
+  $("editor").hidden = true; current = null;
+  setStatus("Added. Search the next event.");
 });
 
-$("export-rejected").addEventListener("click", () => {
-  // Feed this back to tools/rejected.json so future harvests skip them.
-  const blob = new Blob([JSON.stringify(rejected, null, 2)], { type: "application/json" });
+/* ---------- Library ---------- */
+
+function save() { localStorage.setItem(KEY, JSON.stringify(lib)); render(); }
+
+function render() {
+  $("count").textContent = `${lib.length} image(s) — ${Math.floor(lib.length / 5)} full day(s)`;
+  const host = $("lib"); host.innerHTML = "";
+  lib.forEach((img, i) => {
+    const r = document.createElement("div"); r.className = "lrow";
+    const im = document.createElement("img");
+    im.src = "https://commons.wikimedia.org/wiki/Special:FilePath/"
+      + encodeURIComponent(img.commonsFile) + "?width=120";
+    const y = document.createElement("span"); y.className = "y"; y.textContent = img.year;
+    const t = document.createElement("span"); t.textContent = img.id;
+    const d = document.createElement("span"); d.style.color = "var(--mute)"; d.textContent = "t" + img.difficulty;
+    const x = document.createElement("button"); x.className = "x"; x.textContent = "✕";
+    x.onclick = () => { lib.splice(i, 1); save(); };
+    r.append(im, y, t, d, x); host.appendChild(r);
+  });
+}
+
+$("export").addEventListener("click", () => {
+  const b = new Blob([JSON.stringify(lib, null, 2)], { type: "application/json" });
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "rejected.json";
-  a.click();
+  a.href = URL.createObjectURL(b); a.download = "curated-images.json"; a.click();
   URL.revokeObjectURL(a.href);
 });
+$("import").addEventListener("click", () => $("importfile").click());
+$("importfile").addEventListener("change", async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const d = JSON.parse(await f.text());
+  lib = Array.isArray(d) ? d : (d.images || []); save();
+});
+$("clear").addEventListener("click", () => {
+  if (confirm("Clear the working library? Export first if you want to keep it.")) { lib = []; save(); }
+});
 
-const origSave = save;
-save = function () { origSave(); renderQueue(); };
+$("lightbox").addEventListener("click", () => $("lightbox").classList.remove("on"));
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") $("lightbox").classList.remove("on"); });
 
 render();
 </script>

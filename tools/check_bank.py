@@ -48,8 +48,8 @@ def main() -> int:
     if days_left < args.min_days:
         print(
             f"\nLOW BANK: {days_left} day(s) left, want at least {args.min_days}.\n"
-            f"  1. python3 tools/harvest.py --years 1975-2015 --per-year 6\n"
-            f"  2. review in tools/curate.html, merge into content/library.json\n"
+            f"  1. open tools/curate.html and search for events to curate\n"
+            f"  2. export and merge into content/library.json\n"
             f"  3. python3 tools/schedule_next.py\n"
             f"  4. python3 tools/generate_puzzles.py && python3 tools/fetch_images.py\n"
             f"  5. commit and push"

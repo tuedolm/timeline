@@ -43,7 +43,7 @@ def main() -> int:
         n_days = min(n_days, args.days)
     if n_days == 0:
         print(f"Not enough unscheduled images ({len(pool)}) for a full day of {ROUNDS}.")
-        print("Harvest and curate more first: tools/harvest.py then tools/curate.html")
+        print("Curate more first: open tools/curate.html")
         return 1
 
     usable = pool[: n_days * ROUNDS]
