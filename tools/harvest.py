@@ -52,6 +52,65 @@ JUNK_NAME = re.compile(
     r"coat of arms|flag of|signature|stamp|banknote|poster|cover|screenshot",
     re.I,
 )
+
+# Subjects with no human-made time markers. A cheetah in 1996 is identical to a
+# cheetah in 2016: the player cannot reason, only guess, and the reveal has
+# nothing to teach. These are unguessable AND unrewarding, so they never reach
+# review. Note this is about *datability*, not fame — an anonymous kitchen is
+# excellent material because its appliances and decor date it to a few years.
+# Tuned deliberately conservative. In a filter that feeds a human review queue,
+# a false positive is far worse than a false negative: you will reject a bad
+# candidate you can see, but a good one dropped here disappears without ever
+# being shown. Terms that double as human-made things are therefore excluded —
+# "eagle" and "falcon" are aircraft, "beetle" and "jaguar" are cars, "sunset"
+# is a lighting condition, and all of them wrongly binned real material in
+# testing. Everything dropped is logged so nothing vanishes unseen.
+UNDATABLE = re.compile(
+    r"\b("
+    r"cheetah|leopard|giraffe|zebra|rhinoceros|hippopotamus|antelope|gazelle|"
+    r"wildebeest|meerkat|orangutan|chimpanzee|gorilla|baboon|"
+    r"squirrel|hedgehog|otter|badger|"
+    r"owl|heron|flamingo|pelican|woodpecker|hummingbird|songbird|waterfowl|"
+    r"moth|caterpillar|dragonfly|grasshopper|tarantula|"
+    r"lizard|gecko|iguana|tortoise|tadpole|amphibian|"
+    r"starfish|jellyfish|coral reef|plankton|mollusc|crustacean|"
+    r"wildlife|fauna|flora|botanic|herbarium|"
+    r"wildflower|orchid|fungus|mushroom|lichen|bryophyte|"
+    r"waterfall|seascape|sand dune|natural landscape|landscape photograph|"
+    r"rock formation|geological|mineral specimen|fossil|"
+    r"nebula|galaxy|star cluster|constellation|"
+    r"micrograph|microscope|petri dish|electrophoresis|dna fragment"
+    r")\b",
+    re.I,
+)
+
+# People and their things carry era cues — clothing, uniforms, vehicles, decor,
+# signage. When any of these are present the photo is datable regardless of an
+# animal or nature keyword appearing somewhere in its categories: a photo of
+# teenagers at a wildlife refuge is dated by their clothes, not by the refuge.
+# This override exists because "Wildlife" alone binned exactly that photo.
+HUMAN_CONTEXT = re.compile(
+    r"\b("
+    r"people|person|men|women|man|woman|child|children|teen|youth|family|crowd|"
+    r"portrait|uniform|fashion|clothing|dress|costume|"
+    r"street|shop|store|market|mall|restaurant|cafe|bar|office|factory|school|"
+    r"classroom|kitchen|living room|interior|bedroom|house|apartment|building|"
+    r"car|automobile|bus|train|tram|bicycle|motorcycle|aircraft|airport|"
+    r"television|computer|telephone|radio|advertising|signage|billboard|"
+    r"protest|parade|concert|wedding|sport|match|game"
+    r")\b",
+    re.I,
+)
+
+# Categories that reliably hold everyday human scenes — the era-reading material
+# the game actually wants. Verified to contain files directly.
+PRESETS = {
+    "everyday": [
+        "1980s fashion", "1990s fashion", "Street photography",
+        "Living rooms", "Kitchens", "Shopping malls",
+    ],
+}
+
 PAUSE = 1.5  # seconds between API calls
 
 
@@ -112,9 +171,10 @@ def file_metadata(titles: list) -> list:
         data = api_get(
             {
                 "action": "query",
-                "prop": "imageinfo",
+                "prop": "imageinfo|categories",
                 "iiprop": "extmetadata|size|mime",
                 "iiextmetadatafilter": "LicenseShortName|Artist|DateTimeOriginal|ImageDescription",
+                "cllimit": "500",
                 "titles": "|".join(batch),
             }
         )
@@ -123,6 +183,10 @@ def file_metadata(titles: list) -> list:
                 continue
             ii = page["imageinfo"][0]
             md = ii.get("extmetadata", {})
+            cats = [
+                c["title"].replace("Category:", "")
+                for c in page.get("categories", [])
+            ]
             results.append(
                 {
                     "commonsFile": page["title"].replace("File:", ""),
@@ -134,6 +198,7 @@ def file_metadata(titles: list) -> list:
                     "description": strip_html(
                         (md.get("ImageDescription") or {}).get("value", "")
                     )[:300],
+                    "categories": cats[:25],
                     "width": ii.get("width", 0),
                     "height": ii.get("height", 0),
                     "mime": ii.get("mime", ""),
@@ -158,6 +223,37 @@ def exact_year(date_field: str, want: int) -> bool:
     return years == {str(want)}
 
 
+def derive_year(date_field: str):
+    """Infer an unambiguous exact year, or None. Used for category sweeps."""
+    if not date_field:
+        return None
+    low = date_field.lower()
+    if any(w in low for w in ("circa", " ca.", "between", "unknown", "or ")):
+        return None
+    years = set(re.findall(r"\b(1[89]\d{2}|20\d{2})\b", date_field))
+    return int(years.pop()) if len(years) == 1 else None
+
+
+def timeless_match(meta: dict):
+    """Return the matched term when nothing in frame could reveal the year.
+
+    A cheetah is a cheetah in any decade: pure coin-flip to guess, and nothing
+    to say in the reveal. Returns the matched word so the drop can be logged
+    and audited rather than happening silently.
+    """
+    haystack = " ".join(
+        [meta["commonsFile"], meta.get("description", "")] + meta.get("categories", [])
+    )
+    hit = UNDATABLE.search(haystack)
+    if not hit:
+        return None
+    # Human subjects date a photo on their own; don't bin it for a stray
+    # animal or nature word elsewhere in its metadata.
+    if HUMAN_CONTEXT.search(haystack):
+        return None
+    return hit.group(0)
+
+
 def load_json(path: Path, default):
     try:
         return json.loads(path.read_text())
@@ -169,13 +265,17 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--years", help="e.g. 1975-2015 or 1985,1992,2003")
     ap.add_argument("--category", help="a specific Commons category to sweep")
-    ap.add_argument("--per-year", type=int, default=6, help="candidates to keep per year")
+    ap.add_argument("--preset", choices=sorted(PRESETS),
+                    help="sweep a curated set of everyday-life categories")
+    ap.add_argument("--per-year", type=int, default=6, help="candidates to keep per category")
     ap.add_argument("--limit", type=int, default=120, help="files to inspect per category")
     ap.add_argument("--min-width", type=int, default=1200)
+    ap.add_argument("--allow-timeless", action="store_true",
+                    help="keep subjects with no era cues (wildlife, landscapes)")
     args = ap.parse_args()
 
-    if not args.years and not args.category:
-        ap.error("give --years or --category")
+    if not args.years and not args.category and not args.preset:
+        ap.error("give --years, --category or --preset")
 
     lib = load_json(LIBRARY, {"images": []})
     known = {i["commonsFile"] for i in lib.get("images", [])}
@@ -186,6 +286,8 @@ def main() -> int:
     targets = []
     if args.category:
         targets.append((None, args.category))
+    if args.preset:
+        targets.extend((None, c) for c in PRESETS[args.preset])
     if args.years:
         years = []
         for part in args.years.split(","):
@@ -211,6 +313,7 @@ def main() -> int:
         meta = file_metadata(titles)
 
         kept = []
+        dropped = []
         for m in meta:
             if m["commonsFile"] in known:
                 continue
@@ -220,9 +323,21 @@ def main() -> int:
                 continue
             if m["width"] < args.min_width:
                 continue
-            if year is not None and not exact_year(m["dateOriginal"], year):
+            if year is not None:
+                if not exact_year(m["dateOriginal"], year):
+                    continue
+                m["year"] = year
+            else:
+                # Category sweeps aren't year-scoped, so derive the year from
+                # the file's own date field and drop anything ambiguous.
+                derived = derive_year(m["dateOriginal"])
+                if derived is None:
+                    continue
+                m["year"] = derived
+            hit = None if args.allow_timeless else timeless_match(m)
+            if hit:
+                dropped.append(f"{m['commonsFile']}  [{hit}]")
                 continue
-            m["year"] = year
             m["thumb"] = (
                 "https://commons.wikimedia.org/wiki/Special:FilePath/"
                 + urllib.parse.quote(m["commonsFile"])
@@ -235,7 +350,11 @@ def main() -> int:
 
         found_total += len(kept)
         queue.extend(kept)
-        print(f"  {category}: inspected {len(meta)}, kept {len(kept)}")
+        note = f", {len(dropped)} undatable" if dropped else ""
+        print(f"  {category}: inspected {len(meta)}, kept {len(kept)}{note}")
+        # Print every drop: a wrongly filtered photo is otherwise invisible.
+        for d in dropped:
+            print(f"      dropped: {d}")
 
     CANDIDATES.write_text(json.dumps(queue, indent=2, ensure_ascii=False) + "\n")
     print(f"\n{found_total} new candidate(s); queue now {len(queue)}")

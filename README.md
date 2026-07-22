@@ -49,6 +49,35 @@ previously rejected. What survives is a review queue — you still decide whethe
 each photo makes a *good puzzle*. `schedule_next.py` deals images round-robin by
 difficulty so every day gets its own easy → hard curve.
 
+`--preset everyday` sweeps categories full of ordinary human scenes (fashion,
+kitchens, living rooms, malls, street photography), which is where the best
+material lives.
+
+### Datable, not famous
+
+The harvester also drops **undatable subjects** — wildlife, flora, landscapes,
+astronomy, micrographs. A cheetah in 1996 is identical to a cheetah in 2016:
+the player can only guess, and the reveal has nothing to teach.
+
+This is a filter on *datability*, not on fame, and the difference matters. The
+photos with the biggest stories (Titanic, the Moon landing) are usually the
+easiest to date, so a library selected for famous events drifts straight back
+to being too easy. An anonymous 1989 kitchen has no story in the news sense and
+is superb material: the appliances, worktops and television date it to within a
+few years, and the reveal gets to explain exactly that.
+
+Two guards keep quality honest:
+
+- `generate_puzzles.py` **requires** a `story` for every image, so nothing
+  without something worth saying can ship, undatable or not.
+- The undatable filter is tuned conservatively and **logs every drop**, because
+  a bad candidate you see gets rejected by you, whereas a good one wrongly
+  filtered disappears silently. Terms that double as human-made things
+  (`eagle`, `falcon`, `beetle`, `jaguar`, `sunset`) are deliberately excluded —
+  each of them binned real material in testing. A photo with clear human
+  subjects is never dropped for a stray animal word in its categories.
+  Use `--allow-timeless` to bypass the filter entirely.
+
 ## Daily cycle
 
 The client keys everything off the UTC date. `generate_puzzles.py` turns the
