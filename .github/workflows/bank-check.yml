@@ -1,0 +1,50 @@
+name: Puzzle bank check
+
+# The content bank running dry is the one failure that takes the game down for
+# every player at once, and it happens silently. This checks daily and opens an
+# issue while there is still time to curate.
+
+on:
+  schedule:
+    - cron: "0 9 * * *"   # 09:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check remaining puzzle days
+        id: bank
+        run: |
+          set +e
+          OUTPUT=$(python3 tools/check_bank.py --min-days 14)
+          STATUS=$?
+          echo "$OUTPUT"
+          {
+            echo "report<<EOF"
+            echo "$OUTPUT"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "low=$STATUS" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Open or update the low-bank issue
+        if: steps.bank.outputs.low != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPORT: ${{ steps.bank.outputs.report }}
+        run: |
+          EXISTING=$(gh issue list --label puzzle-bank --state open --json number --jq '.[0].number')
+          BODY=$(printf '%s\n\n```\n%s\n```\n' "The puzzle bank is running low." "$REPORT")
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh label create puzzle-bank --color FBCA04 --description "Content bank running low" 2>/dev/null || true
+            gh issue create --title "Puzzle bank running low" --label puzzle-bank --body "$BODY"
+          fi

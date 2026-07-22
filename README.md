@@ -25,6 +25,30 @@ python3 -m http.server 8471
 | `tools/fetch_images.py` | Localizes images into `assets/` for CDN upload (run before launch; hotlinking Commons is prototype-only) |
 | `infra/worker.js` | Cloudflare Worker scaffold for anonymous score-distribution analytics (client stub is `track()` in app.js, off by default) |
 
+## Keeping the bank full
+
+The one failure that takes the game down for everyone at once is running out of
+puzzles, and it happens silently. `.github/workflows/bank-check.yml` runs daily
+and opens a GitHub issue when fewer than 14 days remain.
+
+The refill loop — the filtering is automated, the taste is not:
+
+```sh
+python3 tools/harvest.py --years 1975-2015 --per-year 6   # 1. find candidates
+# 2. open tools/curate.html → "Load harvest queue" → Use / Reject each
+#    then Export images JSON and merge into content/library.json
+python3 tools/schedule_next.py                            # 3. deal into days
+python3 tools/generate_puzzles.py && python3 tools/fetch_images.py
+git add -A && git commit && git push                      # 4. ship
+python3 tools/check_bank.py                               # anytime: days left
+```
+
+`harvest.py` auto-rejects anything that isn't freely licensed, is under 1200px,
+lacks exact-year evidence ("circa" is out), is already in the library, or was
+previously rejected. What survives is a review queue — you still decide whether
+each photo makes a *good puzzle*. `schedule_next.py` deals images round-robin by
+difficulty so every day gets its own easy → hard curve.
+
 ## Daily cycle
 
 The client keys everything off the UTC date. `generate_puzzles.py` turns the

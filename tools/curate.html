@@ -28,6 +28,18 @@ button:disabled { opacity:.4; cursor:default; }
 .lib-row .diff { color:var(--dim); }
 .toolbar { display:flex; gap:10px; flex-wrap:wrap; }
 #count { color:var(--dim); font-size:13px; margin-top:10px; }
+#queue-count { color:var(--dim); font-size:13px; align-self:center; }
+.hint { color:var(--dim); font-size:12px; margin:10px 0 4px; line-height:1.5; }
+.hint code { color:var(--text); background:var(--s2); padding:1px 5px; border-radius:4px; }
+#queue { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-top:12px; }
+.cand { background:var(--s2); border-radius:8px; overflow:hidden; display:flex; flex-direction:column; }
+.cand img { width:100%; height:150px; object-fit:cover; background:#000; }
+.cand-body { padding:8px 10px; font-size:11px; color:var(--dim); flex:1; }
+.cand-body b { color:var(--text); font-size:13px; }
+.cand-body .desc { display:block; margin-top:4px; max-height:44px; overflow:hidden; }
+.cand-actions { display:flex; gap:6px; padding:0 10px 10px; }
+.cand-actions button { margin-top:0; flex:1; padding:7px 0; font-size:12px; }
+.cand-actions .rej { background:var(--s2); border:1px solid #34343e; color:var(--red); }
 </style>
 </head>
 <body>
@@ -70,6 +82,19 @@ button:disabled { opacity:.4; cursor:default; }
     </div>
     <div id="count"></div>
     <div id="lib-list"></div>
+  </div>
+
+  <div class="panel" style="grid-column: 1 / -1">
+    <div class="toolbar">
+      <button id="load-queue" class="secondary">Load harvest queue</button>
+      <button id="export-rejected" class="secondary">Export rejected list</button>
+      <span id="queue-count"></span>
+    </div>
+    <p class="hint">Run <code>python3 tools/harvest.py --years 1975-2015 --per-year 6</code> first.
+      These already passed the licence, resolution and exact-year filters — your only job is
+      to judge whether each one makes a <em>good puzzle</em>. Reject anything whose medium
+      gives the year away.</p>
+    <div id="queue"></div>
   </div>
 </div>
 
@@ -208,6 +233,91 @@ $("import-file").addEventListener("change", async (e) => {
 $("clear-btn").addEventListener("click", () => {
   if (confirm("Clear the whole working library?")) { lib = []; save(); }
 });
+
+/* ---------- Harvest review queue ---------- */
+
+const REJ_KEY = "tl.rejected";
+let rejected = [];
+try { rejected = JSON.parse(localStorage.getItem(REJ_KEY)) || []; } catch { rejected = []; }
+let queue = [];
+
+function saveRejected() { localStorage.setItem(REJ_KEY, JSON.stringify(rejected)); }
+
+function renderQueue() {
+  const host = $("queue");
+  const inLib = new Set(lib.map((i) => i.commonsFile));
+  const pending = queue.filter((c) => !rejected.includes(c.commonsFile) && !inLib.has(c.commonsFile));
+  $("queue-count").textContent = pending.length
+    ? `${pending.length} awaiting review`
+    : (queue.length ? "queue clear — harvest more" : "");
+  host.innerHTML = "";
+
+  for (const c of pending) {
+    const card = document.createElement("div");
+    card.className = "cand";
+
+    const img = document.createElement("img");
+    img.src = c.thumb;
+    img.loading = "lazy";
+    img.alt = c.commonsFile;
+
+    const body = document.createElement("div");
+    body.className = "cand-body";
+    const b = document.createElement("b");
+    b.textContent = c.year || "?";
+    const meta = document.createElement("span");
+    meta.textContent = ` · ${c.license} · ${c.width}×${c.height}`;
+    const desc = document.createElement("span");
+    desc.className = "desc";
+    desc.textContent = c.description || c.commonsFile;
+    body.append(b, meta, desc);
+
+    const actions = document.createElement("div");
+    actions.className = "cand-actions";
+    const use = document.createElement("button");
+    use.textContent = "Use";
+    use.addEventListener("click", () => {
+      $("file-input").value = c.commonsFile;
+      if (c.year) $("year-input").value = c.year;
+      $("fetch-btn").click();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    const rej = document.createElement("button");
+    rej.className = "rej";
+    rej.textContent = "Reject";
+    rej.addEventListener("click", () => {
+      rejected.push(c.commonsFile);
+      saveRejected();
+      renderQueue();
+    });
+    actions.append(use, rej);
+
+    card.append(img, body, actions);
+    host.appendChild(card);
+  }
+}
+
+$("load-queue").addEventListener("click", async () => {
+  try {
+    queue = await (await fetch("candidates.json", { cache: "no-cache" })).json();
+    renderQueue();
+  } catch {
+    $("queue-count").textContent = "no candidates.json yet — run tools/harvest.py";
+  }
+});
+
+$("export-rejected").addEventListener("click", () => {
+  // Feed this back to tools/rejected.json so future harvests skip them.
+  const blob = new Blob([JSON.stringify(rejected, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "rejected.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+const origSave = save;
+save = function () { origSave(); renderQueue(); };
 
 render();
 </script>
