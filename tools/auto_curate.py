@@ -281,6 +281,31 @@ def difficulty_from_fame(views):
     return 5
 
 
+STOPWORDS = {"the", "of", "and", "in", "a", "an", "on", "to", "for", "at", "war",
+             "disaster", "crisis", "revolution", "uprising", "protests", "protest"}
+
+
+def likely_duplicate(title, lib):
+    """Flag an event the library probably already covers.
+
+    Dedupe by filename alone missed Occupy Wall Street, which is already in the
+    library under a different photograph — and the existing images predate the
+    sourceArticle field, so there is nothing to match on but the words.
+    """
+    words = {w for w in re.findall(r"[a-z]+", title.lower()) if w not in STOPWORDS and len(w) > 3}
+    if not words:
+        return ""
+    # Every distinctive word must appear. A partial match is meaningless at this
+    # length: one shared word paired "Prague Spring" with a photograph whose
+    # blurb happened to mention spring, and "Occupy Wall Street" with a
+    # nineteenth-century photograph of Sacramento Street.
+    for img in lib["images"]:
+        hay = (img["id"] + " " + img.get("blurb", "")).lower()
+        if all(w in hay for w in words):
+            return img["id"]
+    return ""
+
+
 def kebab(s):
     return re.sub(r"^-|-$", "", re.sub(r"[^a-z0-9]+", "-", s.lower()))[:42]
 
@@ -326,9 +351,10 @@ def main():
         events.sort(key=gap_score)
 
     prepared, skipped = [], []
-    for title in events:
+    for n, title in enumerate(events, 1):
         if len(prepared) >= args.count:
             break
+        print(f"  .. [{n}/{len(events)}] {title}", flush=True)
         page = article(title)
         time.sleep(PAUSE)
         if not page:
@@ -367,16 +393,17 @@ def main():
             "sourceArticle": title,
             "sourceSummary": summary[:900],
             "pageviews": views,
+            "possibleDuplicate": likely_duplicate(title, lib),
             "verified": {"license": meta["license"], "artist": meta["artist"],
                          "dateOriginal": meta["dateOriginal"]},
             "_width": meta["width"], "_height": meta["height"],
         })
         have_files.add(meta["commonsFile"])
         print(f"  ok    {year}  d{prepared[-1]['difficulty']}  "
-              f"{prepared[-1]['topic']:<11} {prepared[-1]['country']:<16} {title}")
+              f"{prepared[-1]['topic']:<11} {prepared[-1]['country']:<16} {title}", flush=True)
 
     for t, why in skipped:
-        print(f"  skip  {t}  ({why})")
+        print(f"  skip  {t}  ({why})", flush=True)
 
     queue.extend(prepared)
     CANDIDATES.write_text(json.dumps(queue, indent=2, ensure_ascii=False) + "\n")

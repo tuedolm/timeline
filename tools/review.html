@@ -105,6 +105,7 @@ function render() {
     b.append(hd, t, s);
 
     const warn = [];
+    if (it.possibleDuplicate) warn.push(`library may already have this: "${it.possibleDuplicate}"`);
     if (!it.country) warn.push("country not detected");
     if (it._width && it._width < 1200) warn.push(`soft ${it._width}×${it._height}`);
     if (warn.length) {
